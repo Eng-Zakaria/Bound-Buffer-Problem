@@ -1,9 +1,10 @@
 package com.example.boundbuffer;
 
-import com.example.boundbuffer.Models.Supermarket;
+import com.example.boundbuffer.Models.*;
+
 
 public class MultiThreading {
-    private int size;
+    int size = 10;
     private int noCustomers;
     private int noVendors;
 
@@ -20,18 +21,21 @@ public class MultiThreading {
     }
 
     void CreateSupermarket(int size){
-        Supermarket supermarket = new Supermarket(size);
+        Supermarket supermarket = new Supermarket();
+        supermarket.setSize(size);
     }
 
     void CreateCustomers(int noCustomers){
         for(int i=0 ; i<noCustomers ; i++ ){
             Thread Customer = new Thread();
+            Customer.start();
         }
     }
 
     void CreateVendors(int noVendors){
         for(int i=0; i<noVendors; i++){
             Thread Vendor = new Thread();
+            Vendor.start();
         }
     }
 }

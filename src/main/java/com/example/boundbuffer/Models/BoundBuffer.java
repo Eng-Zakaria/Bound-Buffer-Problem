@@ -6,13 +6,43 @@ public class BoundBuffer{
     int count = 0;
     int in = 0;
     int out = 0;
+    Object stock[];
 
-    BoundBuffer(){
+    int size = 10;
+    Semaphore mutex ;
+    Semaphore empty;
+    Semaphore full ;
+
+
+    public BoundBuffer(int size){
+        count = 0;
+        in = 0;
+        out = 0;
+        size = getSize();
+        mutex = new Semaphore(1);
+        empty = new Semaphore(getSize());
+        full =  new Semaphore(0);
+        stock = new Object[size];
 
     }
-     BoundBuffer(int bufferSize){
 
+    public BoundBuffer() {
+        size = getSize();
     }
 
 
+    public void setSize(int size) {
+        this.size = size;
+    }
+    public int getSize(){
+        return  this.size;
+    }
+
+
+    boolean isFull(){
+        return (count==size)?  false : false ;
+    }
+    boolean isEmpty(){
+         return (count==0)? false:false ;
+    }
 }
