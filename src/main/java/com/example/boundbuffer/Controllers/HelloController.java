@@ -1,4 +1,4 @@
-package com.example.boundbuffer;
+package com.example.boundbuffer.Controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
