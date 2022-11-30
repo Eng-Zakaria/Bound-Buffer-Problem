@@ -2,12 +2,25 @@ package com.example.boundbuffer.Models;
 
 
 public class Customer {
-    Customer(){
+    public Customer(){
 
     }
 
-    public void Remove(Object item, Supermarket supermarket ){
+    public synchronized void Remove(Object item, Supermarket supermarket ) throws InterruptedException{
 
+        supermarket.empty.acquire();
+        supermarket.mutex.acquire();
+
+        // add an item to the buffer
+
+        supermarket.isEmpty();
+        supermarket.stock[supermarket.out] = null;
+
+        supermarket.out = (supermarket.out + 1) % supermarket.size;
+
+        supermarket.mutex.release();
+        supermarket.full.release();
+        System.out.println("I'm Customer ");
     }
 
 }

@@ -3,7 +3,7 @@ import com.example.boundbuffer.Models.*;
 import java.util.concurrent.Semaphore;
 
 public class Vendor {
-    Vendor(){
+    public Vendor(){
 
     }
     public synchronized void Insert(Object item, Supermarket supermarket ) throws InterruptedException {

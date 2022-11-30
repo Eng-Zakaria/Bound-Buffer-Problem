@@ -7,4 +7,5 @@ public class Supermarket extends BoundBuffer {
     public Supermarket(){
 
     }
+
 }
