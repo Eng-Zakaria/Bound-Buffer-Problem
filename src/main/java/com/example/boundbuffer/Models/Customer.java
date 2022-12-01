@@ -3,6 +3,7 @@ package com.example.boundbuffer.Models;
 
 public class Customer {
     public Customer(){
+        Cart cart = new Cart();
 
     }
 
@@ -13,7 +14,7 @@ public class Customer {
         // remove an item from the buffer
 
         tazkarty.isEmpty();
-        tazkarty.tzaker[tazkarty.out] = null;
+//        tazkarty.tickets[tazkarty.out] = null;
         tazkarty.count--;
         tazkarty.out = (tazkarty.out + 1) % tazkarty.size;
 

@@ -1,33 +1,37 @@
 package com.example.boundbuffer.Models;
 
 public class Cart {
-    private int Nitem=0;
-    private Item items[];
+    private int noTicketsInCart =0;
+    private Ticket ticketsCart[];
     /* customers can add 10 items at MAX in cart
-            important to know if function of additem return 1 means this function had succuessful to add this item
+            important to know if function of addItem return 1 means this function had successful to add this item
      */
     public Cart(){
-        items = new Item[10];
+        ticketsCart = new Ticket[10];
     }
-    public int additem(Item I){
-        items[Nitem] = I;
-        Nitem++;
-        return 1;
+    public void addItem(Ticket I){
+        if(noTicketsInCart == 9){
+            ticketsCart[noTicketsInCart] = I;
+            noTicketsInCart++;
+        }
+        else{
+            System.out.println("Error : Max No tickets is reached");
+        }
     }
-    public int removeitem(Item I){
-        if(Nitem ==0 || I==null || items == null)return 0;
-          Item[] itemtemp = new Item[items.length];
+    public int removeItem(Ticket tick){
+        if(noTicketsInCart ==0 || tick==null || ticketsCart == null)return 0;
+          Ticket[] ticketTemp = new Ticket[ticketsCart.length];
           int index=0;
-        for(int i=0;i<Nitem;i++){
-            if(items[i].id() != I.id()){
-                itemtemp[index] = items[i];
+        for(int i = 0; i< noTicketsInCart; i++){
+            if(ticketsCart[i].getId() != tick.getId()){
+                ticketTemp[index] = ticketsCart[i];
                 index++;
             }
 
         }
-        itemtemp[items.length-1] = null;
-        items = itemtemp;
-        Nitem--;
+        ticketTemp[ticketsCart.length-1] = null;
+        ticketsCart = ticketTemp;
+        noTicketsInCart--;
         return 1;
     }
 

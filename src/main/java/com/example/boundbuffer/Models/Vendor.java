@@ -11,7 +11,7 @@ public class Vendor {
 
         tazkarty.isFull();
 
-        tazkarty.tzaker[tazkarty.in] = item;
+//        tazkarty.tickets[tazkarty.in] = item;
         tazkarty.count ++;
         tazkarty.in = (tazkarty.in + 1) % tazkarty.size;
 

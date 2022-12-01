@@ -3,12 +3,12 @@ import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
 
 public class BoundBuffer{
-    public static int Niteminsystem=0;
-    public static ArrayList<Item> allitems;
+    public static int TotalNoTickets =0;
+    public static ArrayList<Ticket>tickets;
     int count = 0;
     int in = 0;
     int out = 0;
-    Object tzaker[];
+
 
     int size = 10;
     Semaphore mutex ;
@@ -17,7 +17,8 @@ public class BoundBuffer{
 
 
     public BoundBuffer(int size){
-        allitems = new ArrayList<>();
+
+        tickets = new ArrayList<>();
         count = 0;
         in = 0;
         out = 0;
@@ -25,7 +26,7 @@ public class BoundBuffer{
         mutex = new Semaphore(1);
         empty = new Semaphore(getSize());
         full =  new Semaphore(0);
-        tzaker = new Object[size];
+
 
     }
 
@@ -43,9 +44,9 @@ public class BoundBuffer{
 
 
     boolean isFull(){
-        return (count==size)?  false : false ;
+        return (count==size)?  true : false ;
     }
     boolean isEmpty(){
-         return (count==0)? false:false ;
+         return (count==0)? true :false ;
     }
 }

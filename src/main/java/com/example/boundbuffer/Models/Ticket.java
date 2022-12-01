@@ -1,27 +1,27 @@
 package com.example.boundbuffer.Models;
 
-public class Item extends BoundBuffer{
+public class Ticket extends BoundBuffer{
     private int id;
     private String name;
     private String type;
     private double price;
-    private String category;
-    private String imagepath;
-    private String des;
-    public Vendor onwer;
-    private int exist=1;
-    public Item( String name, String type, double price, String category, String imagepath,String des) {
-        this.id = BoundBuffer.Niteminsystem;
-        BoundBuffer.Niteminsystem++;
+    private String imagePath;
+    private String description;
+
+    public Vendor owner;
+    private Boolean available;
+    public Ticket(String name, String type, double price, String imagePath, String description) {
+        this.id = BoundBuffer.TotalNoTickets;
+        BoundBuffer.TotalNoTickets++;
         this.name = name;
         this.type = type;
         this.price = price;
-        this.category = category;
-        this.des=des;
-        this.imagepath = imagepath;
+        this.description = description;
+        this.imagePath = imagePath;
+        this.available = true;
     }
 
-    public int id(){
+    public int getId(){
 
         return id;
     }
@@ -32,13 +32,13 @@ public class Item extends BoundBuffer{
     *      but this item aleardy bought form someone (sold)
     *
     * */
-    public int sold(){
-        if(exist ==1){
-            exist =0;
-            return 1;
+    public Boolean sold(){
+        if(available ==true){
+            available =false;
+            return true;
         }else {
 
-            return 0;
+            return false;
 
         }
 
