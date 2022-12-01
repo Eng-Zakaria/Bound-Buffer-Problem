@@ -12,8 +12,9 @@ public class Vendor {
         // add an item to the buffer
 
         supermarket.isFull();
-        supermarket.stock[supermarket.in] = item;
 
+        supermarket.stock[supermarket.in] = item;
+        supermarket.count ++;
         supermarket.in = (supermarket.in + 1) % supermarket.size;
 
         supermarket.mutex.release();
