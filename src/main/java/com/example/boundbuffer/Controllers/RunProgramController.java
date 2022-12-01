@@ -1,5 +1,5 @@
 package com.example.boundbuffer.Controllers;
 
-public class SetThreadsControllers {
+public class RunProgramController {
 
 }
