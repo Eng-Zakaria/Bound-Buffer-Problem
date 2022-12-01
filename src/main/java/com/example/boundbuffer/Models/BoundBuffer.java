@@ -6,7 +6,7 @@ public class BoundBuffer{
     int count = 0;
     int in = 0;
     int out = 0;
-    Object stock[];
+    Object tzaker[];
 
     int size = 10;
     Semaphore mutex ;
@@ -22,7 +22,7 @@ public class BoundBuffer{
         mutex = new Semaphore(1);
         empty = new Semaphore(getSize());
         full =  new Semaphore(0);
-        stock = new Object[size];
+        tzaker = new Object[size];
 
     }
 

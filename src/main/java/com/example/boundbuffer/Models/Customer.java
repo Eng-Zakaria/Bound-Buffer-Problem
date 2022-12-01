@@ -6,19 +6,19 @@ public class Customer {
 
     }
 
-    public synchronized void Remove(Object item, Supermarket supermarket ) throws InterruptedException{
-        supermarket.empty.acquire();
-        supermarket.mutex.acquire();
+    public synchronized void Remove(Object item, Tazkarty tazkarty) throws InterruptedException{
+        tazkarty.empty.acquire();
+        tazkarty.mutex.acquire();
 
         // remove an item from the buffer
 
-        supermarket.isEmpty();
-        supermarket.stock[supermarket.out] = null;
-        supermarket.count--;
-        supermarket.out = (supermarket.out + 1) % supermarket.size;
+        tazkarty.isEmpty();
+        tazkarty.tzaker[tazkarty.out] = null;
+        tazkarty.count--;
+        tazkarty.out = (tazkarty.out + 1) % tazkarty.size;
 
-        supermarket.mutex.release();
-        supermarket.full.release();
+        tazkarty.mutex.release();
+        tazkarty.full.release();
         System.out.println("I'm Customer ");
     }
 

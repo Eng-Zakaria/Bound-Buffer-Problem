@@ -21,8 +21,8 @@ public class MultiThreading {
     }
 
     void CreateSupermarket(int size){
-        Supermarket supermarket = new Supermarket();
-        supermarket.setSize(size);
+        Tazkarty tazkarty = new Tazkarty();
+        tazkarty.setSize(size);
     }
 
     void CreateCustomers(int noCustomers){
