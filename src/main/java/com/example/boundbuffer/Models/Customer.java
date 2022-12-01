@@ -2,11 +2,14 @@ package com.example.boundbuffer.Models;
 
 
 public class Customer {
+    private int id;
+    private String name;
+    private Cart cart;
     public Customer(){
 
     }
 
-    public synchronized void Remove(Object item, Supermarket supermarket ) throws InterruptedException{
+    public synchronized void Remove(Item item, Supermarket supermarket ) throws InterruptedException{
         supermarket.empty.acquire();
         supermarket.mutex.acquire();
 

@@ -1,8 +1,10 @@
 package com.example.boundbuffer.Models;
+import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
 
 public class BoundBuffer{
-
+    public static int Niteminsystem=0;
+    public static ArrayList<Item> allitems;
     int count = 0;
     int in = 0;
     int out = 0;
@@ -15,6 +17,7 @@ public class BoundBuffer{
 
 
     public BoundBuffer(int size){
+        allitems = new ArrayList<>();
         count = 0;
         in = 0;
         out = 0;
