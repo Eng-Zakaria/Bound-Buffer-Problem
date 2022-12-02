@@ -8,4 +8,5 @@
       <Button fx:id="sell_id" layoutX="50.0" layoutY="417.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="186.0" text="sell " />
       <Button contentDisplay="RIGHT" layoutX="370.0" layoutY="417.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="186.0" text="Button" />
    </children>
+
 </AnchorPane>
