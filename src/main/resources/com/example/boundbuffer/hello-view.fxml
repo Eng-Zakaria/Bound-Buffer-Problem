@@ -9,12 +9,12 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="650.0" style="-fx-background-color: #202020;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.boundbuffer.Controllers.HelloController">
    <children>
-      <Button fx:id="sellid" alignment="CENTER" layoutX="126.0" layoutY="498.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="126.0" style="-fx-background-color: #20562a;" text="sell ticket" textFill="WHITE">
+      <Button fx:id="sellid" alignment="CENTER" layoutX="115.0" layoutY="487.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="148.0" style="-fx-background-color: #20562a; -fx-background-radius: 15;" text="sell ticket" textFill="WHITE">
          <font>
             <Font name="System Bold Italic" size="18.0" />
          </font>
       </Button>
-      <Button fx:id="buyid" layoutX="463.0" layoutY="498.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="126.0" style="-fx-background-color: #20562a;" text="Buy ticket" textFill="WHITE">
+      <Button fx:id="buyid" layoutX="409.0" layoutY="487.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="148.0" style="-fx-background-color: #20562a; -fx-background-radius: 15;" text="Buy ticket" textFill="WHITE">
          <font>
             <Font name="System Bold Italic" size="18.0" />
          </font>
