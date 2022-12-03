@@ -9,7 +9,7 @@ public class Cart {
     public Cart(){
         ticketsCart = new Ticket[10];
     }
-    public void addItem(Ticket I){
+    public void addTicket(Ticket I){
         if(noTicketsInCart == 9){
             ticketsCart[noTicketsInCart] = I;
             noTicketsInCart++;
@@ -18,7 +18,7 @@ public class Cart {
             System.out.println("Error : Max No tickets is reached");
         }
     }
-    public int removeItem(Ticket tick){
+    public int removeTicket(Ticket tick){
         if(noTicketsInCart ==0 || tick==null || ticketsCart == null)return 0;
           Ticket[] ticketTemp = new Ticket[ticketsCart.length];
           int index=0;
