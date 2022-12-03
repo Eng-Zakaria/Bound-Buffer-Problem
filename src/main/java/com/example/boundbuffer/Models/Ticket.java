@@ -201,26 +201,36 @@ public class Ticket extends BoundBuffer{
     }
     public int buy(Customer c,int quantity){
         if(this.quantity == 0 || this.available == false || quantity > this.quantity){
+            System.out.println("those tickets are not available "+this.name);
             return 0;
         }
+
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         System.out.println(this.endTime);
         System.out.println(now());
         try {
             if(sdf.parse(now()).after(sdf.parse(this.endTime))){
+                System.out.println("tickets for this event have dead");
                 return -1;
             }
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
         if(c.getBalance() < (this.price * quantity)){
+            System.out.println("your balance is not enough to checkout for these tickets: "+this.name+" your balance: "+c.getBalance());
             return -2;
         }else {
             this.quantity -= quantity;
         }
+
         this.owner.soldTicket(Ticket.this,quantity);
-        c.setNoTicketPaidbyCustomers(quantity);
-        this.generateQrcode(c.getPathForAllQrsFloder()+"\\"+c.getIndexQr()+this.name+"[" +this.owner.getNameOfStore() +".png",c.getEmail()+" id:"+String.valueOf(c.getId())+this.startTime+" End:"+this.endTime);
+        System.out.println("your charage: "+c.getBalance());
+        c.setBalance(c.getBalance()-(this.price*quantity));
+        c.increasetNoTicketPaidbyCustomers(quantity);
+        this.generateQrcode(c.getPathForAllQrsFloder()+"\\"+c.getIndexQr()+this.name+"[" +this.owner.getNameOfStore() +"]"+".png",c.getEmail()+" id:"+String.valueOf(c.getId())+this.startTime+" End:"+this.endTime);
+        c.recieveQr(this.Qrcode);
+        System.out.println("the amount to pay: "+this.price+"\n"+" your balance after amount and tax: "+c.getBalance()+"\n"+"you will receive tickets on your email ASAP when we receive the a mount keep check your email "+"event name: "+this.name+"we will see you at date :"+endTime+" Don't be late");
+        System.out.println("-------------------recipt-------------------------");
         return 1;
 
     }

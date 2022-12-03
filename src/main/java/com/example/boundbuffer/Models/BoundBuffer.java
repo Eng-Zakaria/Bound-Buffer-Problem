@@ -39,29 +39,49 @@ public class BoundBuffer{
         BoundBuffer b = new BoundBuffer();
         Vendor v1 = new Vendor("mohamed",".png","akjdklfjdakl");
         Vendor v2 = new Vendor("ail",".jpg","adjfdajiaj");
-        v1.addTicket("m1","selver",12,120,".png","adkjfkajdklf","12-12-2022");
-        v1.addTicket("m2","selver",12,120,".png","adkjfkajdklf","12-12-2022");
+        v1.addTicket("m1","selver",13,120,".png","adkjfkajdklf","12-12-2022");
+        v1.addTicket("m2","selver",40,120,".png","adkjfkajdklf","12-12-2022");
         v1.addTicket("m3","selver",12,120,".png","adkjfkajdklf","12-12-2022");
         v1.addTicket("m4","selver",12,120,".png","adkjfkajdklf","12-12-2022");
         v1.addTicket("m5","selver",12,120,".png","adkjfkajdklf","12-12-2022");
         v1.addTicket("m6","selver",12,120,".png","adkjfkajdklf","12-12-2022");
 
 
-        System.out.println(v1.getTicketsForSellByEveryVendor().toString());
-        System.out.println(tickets.toString());
-        v1.deleteTicket(tickets.get(1));
-        System.out.println(v1.getTicketsForSellByEveryVendor().toString());
-        System.out.println(tickets.toString());
 
         Customer c1 = new Customer("tito","t@gmial",13.2);
         Customer c2 = new Customer("ro","r@gmial",10000.1);
         Customer c3 = new Customer("mooo","moo@gmial",213);
 
-        System.out.println("here:"+tickets.get(0).toString());
-        System.out.println(tickets.get(0).buy(c1,1));
-        System.out.println(tickets.get(0).buy(c2,1));
-        System.out.println(tickets.get(0).buy(c3,1));
 
+        c2.addToCart(tickets.get(0),5);
+        c2.addToCart(tickets.get(1),10);
+        c2.addToCart(tickets.get(2),1);
+
+        for (int i=0;i<c2.getCart().getNoTicketsInCart();i++) {
+            System.out.println(c2.getCart().getTicketsCart()[i].getName() +" "+ c2.getCart().getQuentatiyForEachTickets()[i]);
+        }
+
+
+        System.out.println(c2.getCart().getTotalNumberInCart());
+
+        c2.reduceQuentatiyInCart(tickets.get(0),8);
+
+        System.out.println("-------------------");
+        for (int i=0;i<c2.getCart().getNoTicketsInCart();i++) {
+            System.out.println(c2.getCart().getTicketsCart()[i].getName() +" "+c2.getCart().getQuentatiyForEachTickets()[i] );
+        }
+
+        System.out.println("tickets :__"+c2.getNoTicketPaidbyCustomers());
+        c2.checkOut();
+        System.out.println("tickets :__"+c2.getNoTicketPaidbyCustomers());
+
+
+        for (int i=0;i<c2.getIndexQr();i++)
+        System.out.println(c2.getAllQrs()[i]);
+
+        System.out.println("--------------");
+
+        System.out.println(c1.checkOut());
 
 
 

@@ -23,6 +23,40 @@ public class Customer extends BoundBuffer{
         pathForAllQrsFloderCT =super.NewFloder( "D:\\Java programming\\OS2-project\\Bound-Buffer-Problem\\QrCodes\\Qrcodes\\Cust", String.valueOf(this.id));
         BoundBuffer.customers.add(Customer.this);
     }
+    private int indexCart=0;
+    public int addToCart(Ticket t,int quentatiy){
+      this.cart.addTicketToCart(t,quentatiy);
+      indexCart++;
+      return 1;
+    }
+    public int checkOut(){
+        Ticket[] T= cart.getTicketsCart();
+        int[] Q =cart.getQuentatiyForEachTickets();
+        if(this.cart.getTotalNumberInCart()<=0){
+            System.out.println("the Cart is Empty, There is no tickets in it");
+            return -4;
+
+        }
+        if(T.length > 10 || Q.length > 10 || T == null ){
+            System.out.println("maximum number of Ticket you can buy it is 10 Tickets");
+            return -3;
+        }
+
+
+        for (int i=0;i<cart.getNoTicketsInCart();i++) {
+            int y =T[i].buy(Customer.this, Q[i]);
+            if(y != 1) return y;
+        }
+         int issetnew = this.cart.setNewCart();
+
+          return issetnew;
+    }
+    public int removeFromCart(Ticket t){
+        this.cart.removeTicket(t);
+        return 1;
+
+    }
+
 
     public String getPathForAllQrsFloder() {
         return pathForAllQrsFloderCT;
@@ -39,6 +73,14 @@ public class Customer extends BoundBuffer{
     public void recieveQr(String NewQr) {
         this.Qrs[indexQr] = NewQr;
         indexQr++;
+    }
+    public int reduceQuentatiyInCart(Ticket t,int NewQuentatiy){
+       return cart.reduceAndIncreaseQuentatiy(t,NewQuentatiy);
+
+    }
+    public int removeAllTicketsInCart(){
+        return cart.setNewCart();
+
     }
 
     public int getId() {
@@ -57,8 +99,8 @@ public class Customer extends BoundBuffer{
         return noTicketPaidbyCustomers;
     }
 
-    public void setNoTicketPaidbyCustomers(int noTicketPaidbyCustomers) {
-        this.noTicketPaidbyCustomers = noTicketPaidbyCustomers;
+    public void increasetNoTicketPaidbyCustomers(int noTicketPaidbyCustomers) {
+        this.noTicketPaidbyCustomers += noTicketPaidbyCustomers;
     }
 
 

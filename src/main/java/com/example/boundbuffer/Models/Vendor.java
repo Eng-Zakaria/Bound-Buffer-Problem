@@ -146,16 +146,24 @@ public class Vendor extends BoundBuffer{
         return this.TotalnoTicketsIcludeQuntity;
     }
 
+    private int reduceQuantity(Ticket t,int q){
+        t.setQuantity(q);
+        this.ticketsForSellByEveryVendor.set(t.getIndexInVendor(),t);
+        BoundBuffer.tickets.set(t.getIndexInCustomer(),t);
+        return 1;
+
+    }
+
     public int soldTicket(Ticket t,int quantity){
         if(noTickets ==0 || ticketsForSellByEveryVendor == null || t.owner != Vendor.this||!this.ticketsForSellByEveryVendor.contains(t))return 0;
         if(t.getQuantity() == quantity){
             this.deleteTicket(t);
+            t.sold();
             return 1;
         }
+
         this.TotalnoTicketsIcludeQuntity -= quantity;
 
-        this.ticketsForSellByEveryVendor.set(t.getIndexInVendor(),t);
-        BoundBuffer.tickets.set(t.getIndexInCustomer(),t);
 
         return 1;
     }
