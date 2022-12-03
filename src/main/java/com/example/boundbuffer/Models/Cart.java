@@ -10,7 +10,7 @@ public class Cart {
         ticketsCart = new Ticket[10];
     }
     public void addTicket(Ticket I){
-        if(noTicketsInCart == 9){
+        if(noTicketsInCart < 10){
             ticketsCart[noTicketsInCart] = I;
             noTicketsInCart++;
         }
