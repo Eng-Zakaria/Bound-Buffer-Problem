@@ -32,11 +32,11 @@
                   <Shadow />
                </bumpInput>
                <light>
-                  <Light.Distant>
+                  <Distant>
                      <color>
                         <Color red="0.6025219559669495" green="0.8289473652839661" blue="0.6855446100234985" />
                      </color>
-                  </Light.Distant>
+                  </Distant>
                </light>
             </Lighting>
          </effect>
