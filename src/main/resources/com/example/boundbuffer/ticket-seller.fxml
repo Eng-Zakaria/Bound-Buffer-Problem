@@ -1,14 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.boundbuffer.Controllers.TicketSellersController"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="454.0" prefWidth="600.0" style="-fx-background-color: #212121;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.boundbuffer.Controllers.TicketSellersController">
+    <children>
+        <AnchorPane layoutX="20.0" layoutY="45.0" prefHeight="394.0" prefWidth="558.0" style="-fx-background-color: #757575;">
+            <children>
+                <Label layoutX="67.0" layoutY="38.0" text="Name :" underline="true" />
+                <Label layoutX="67.0" layoutY="81.0" text="Discription :" underline="true" />
+                <Label layoutX="67.0" layoutY="121.0" prefHeight="18.0" prefWidth="61.0" text="price :" underline="true" />
+                <Label layoutX="70.0" layoutY="171.0" text="Quantity :" textFill="#efe2e2" underline="true" />
+                <TextField layoutX="198.0" layoutY="35.0" prefHeight="26.0" prefWidth="255.0" style="-fx-background-color: #fafafa;" />
+                <TextField layoutX="198.0" layoutY="78.0" prefHeight="26.0" prefWidth="255.0" style="-fx-background-color: #fafafa;" />
+                <TextField layoutX="198.0" layoutY="127.0" prefHeight="26.0" prefWidth="255.0" style="-fx-background-color: #fafafa;" />
+                <TextField layoutX="198.0" layoutY="168.0" prefHeight="26.0" prefWidth="255.0" style="-fx-background-color: #fafafa;" />
+                <Button layoutX="72.0" layoutY="325.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="164.0" style="-fx-background-color: orange;" text="Back" />
+                <Button layoutX="364.0" layoutY="328.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="164.0" style="-fx-background-color: orange;" text="Add" />
+            </children>
+        </AnchorPane>
+        <Label layoutX="256.0" prefHeight="27.0" prefWidth="87.0" style="-fx-background-color: #fafafa;" text="   Tickets  " textFill="#201f1f">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Label>
+    </children>
 </AnchorPane>
