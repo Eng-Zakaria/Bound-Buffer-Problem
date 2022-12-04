@@ -5,47 +5,40 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.effect.Light.Distant?>
 <?import javafx.scene.effect.Lighting?>
 <?import javafx.scene.effect.Shadow?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="700.0" prefWidth="800.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.boundbuffer.Controllers.CustomersController">
-   <children>
-      <TableView fx:id="Customer_table" layoutY="-1.0" prefHeight="585.0" prefWidth="802.0" style="-fx-background-color: ffffff;" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <columns>
-          <TableColumn prefWidth="160.0" text="Ticket" />
-            <TableColumn prefWidth="160.0" style="-fx-background-color: #20562a;" text="Price" />
-            <TableColumn prefWidth="160.0" text="Add_Cart" />
-            <TableColumn prefWidth="160.0" style="-fx-background-color: #20562a;" text="Add_Cart" />
-            <TableColumn prefWidth="150.0" text="Show_Details" />
-        </columns>
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-         <effect>
-            <Lighting diffuseConstant="2.0" specularConstant="2.0" specularExponent="40.0" surfaceScale="1.16">
-               <bumpInput>
-                  <Shadow />
-               </bumpInput>
-               <light>
-                  <Distant>
-                     <color>
-                        <Color red="0.6025219559669495" green="0.8289473652839661" blue="0.6855446100234985" />
-                     </color>
-                  </Distant>
-               </light>
-            </Lighting>
-         </effect>
-      </TableView>
-      <Button fx:id="Button_Back" layoutX="551.0" layoutY="619.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="171.0" style="-fx-background-color: #20562a; -fx-background-radius: 20;" text="Back" textFill="#27944d" />
-      <Label fx:id="Ticket_num" alignment="CENTER" layoutX="52.0" layoutY="622.0" prefHeight="26.0" prefWidth="120.0" style="-fx-background-color: ffffff; -fx-background-radius: 20;" text="Ticket_num :" textFill="#908d8d">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </Label>
-   </children>
+<AnchorPane prefHeight="700.0" prefWidth="800.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.boundbuffer.CustomersController">
+    <children>
+        <TableView fx:id="Customer_table" layoutY="-1.0" prefHeight="585.0" prefWidth="802.0" style="-fx-background-color: ffffff;" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <columns>
+                <TableColumn prefWidth="160.0" text="Ticket" />
+                <TableColumn prefWidth="160.0" style="-fx-background-color: #20562a;" text="Price" />
+                <TableColumn prefWidth="160.0" text="Add_Cart" />
+                <TableColumn prefWidth="160.0" style="-fx-background-color: #20562a;" text="Add_Cart" />
+                <TableColumn prefWidth="150.0" text="Show_Details" />
+            </columns>
+            <opaqueInsets>
+                <Insets />
+            </opaqueInsets>
+            <effect>
+                <Lighting diffuseConstant="2.0" specularConstant="2.0" specularExponent="40.0" surfaceScale="1.16">
+                    <bumpInput>
+                        <Shadow />
+                    </bumpInput>
+                    <light>
+                        
+                    </light>
+                </Lighting>
+            </effect>
+        </TableView>
+        <Button fx:id="Button_Back" layoutX="551.0" layoutY="619.0" mnemonicParsing="false" onAction="#back" prefHeight="38.0" prefWidth="171.0" style="-fx-background-color: #20562a; -fx-background-radius: 20;" text="Back" textFill="#27944d" />
+        <Label fx:id="Ticket_num" alignment="CENTER" layoutX="52.0" layoutY="622.0" prefHeight="26.0" prefWidth="120.0" style="-fx-background-color: ffffff; -fx-background-radius: 20;" text="Ticket_num :" textFill="#908d8d">
+            <font>
+                <Font size="15.0" />
+            </font>
+        </Label>
+    </children>
 </AnchorPane>

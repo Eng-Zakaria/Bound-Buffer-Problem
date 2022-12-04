@@ -1,15 +1,11 @@
 package com.example.boundbuffer;
 
-import com.example.boundbuffer.Controllers.HelloController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 
 import javafx.stage.Stage;
 import java.io.IOException;
-
-
-import javafx.scene.transform.Scale;
 
 public class HelloApplication extends Application {
     @Override
