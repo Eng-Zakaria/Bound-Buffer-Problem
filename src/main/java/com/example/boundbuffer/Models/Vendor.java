@@ -46,11 +46,7 @@ public class Vendor extends BoundBuffer{
         Ticket I = new Ticket(this.pathFolderTicketCreatedByVendor,pathInfofile,name,type,quantity,price,imagepath, description, startTime, EndTime);
         I.owner = Vendor.this;
         ticketsForSellByEveryVendor.add(I);
-
-
-
         this.noTickets++;
-
         this.TotalnoTicketsIcludeQuntity+=quantity;
         BoundBuffer.tickets.add(I);
 

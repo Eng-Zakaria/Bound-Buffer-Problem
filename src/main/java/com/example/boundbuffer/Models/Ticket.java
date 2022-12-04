@@ -131,7 +131,7 @@ public class Ticket extends BoundBuffer{
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 
         try {
-            if(sdf.parse(this.endTime).after(sdf.parse(this.startTime))){
+            if(sdf.parse(this.endTime).before(sdf.parse(this.startTime))){
                 System.out.println("tickets for this event have dead");
                 return;
             }
