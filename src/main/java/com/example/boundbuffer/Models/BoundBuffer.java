@@ -31,19 +31,6 @@ public class BoundBuffer {
     public static void main(String[] args) {
         BoundBuffer b = new BoundBuffer();
         b.ReadDatafile("D:\\Java programming\\OS2-project\\Bound-Buffer-Problem\\DataBase\\alltickets");
-        Vendor v1 = new Vendor("ali","ali123","123",".jpg","dfjakdjf;");
-        Vendor v2 = new Vendor("ali","ali12","123",".jpg","dfjakdjf;");
-        Vendor v3 = new Vendor("ali","ali1","123",".jpg","dfjakdjf;");
-        v1.addTicket("m1","silver",12,1000,".jpg","adjfkadj","12-11-2022","18-12-2022");
-        v1.addTicket("m2","silver",12,1000,".jpg","adjfkadj","12-11-2022","18-12-2022");
-        v1.addTicket("m3","silver",12,1000,".jpg","adjfkadj","12-11-2022","18-12-2022");
-        v1.addTicket("m4","silver",12,1000,".jpg","adjfkadj","12-11-2022","18-12-2022");
-        v2.addTicket("m5","silver",12,1000,".jpg","adjfkadj","12-11-2022","18-12-2022");
-        v3.addTicket("m6","silver",12,1000,".jpg","adjfkadj","12-11-2022","18-12-2022");
-        v3.addTicket("m7","silver",12,1000,".jpg","adjfkadj","12-11-2022","18-12-2022");
-        v2.addTicket("m6","silver",12,1000,".jpg","adjfkadj","12-11-2022","18-12-2022");
-        v3.addTicket("m8","silver",12,1000,".jpg","adjfkadj","12-11-2022","18-12-2022");
-        v3.addTicket("m9","silver",12,1000,".jpg","adjfkadj","12-11-2022","18-12-2022");
 
 
         /*
