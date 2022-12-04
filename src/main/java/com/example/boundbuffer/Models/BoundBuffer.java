@@ -30,8 +30,8 @@ public class BoundBuffer {
 
     public static void main(String[] args) {
         BoundBuffer b = new BoundBuffer();
-        b.ReadDatafile("D:\\Java programming\\OS2-project\\Bound-Buffer-Problem\\DataBase\\alltickets");
-
+        ArrayList<String[][]> t =b.ReadDatainFloder("D:\\Java programming\\OS2-project\\Bound-Buffer-Problem\\DataBase\\alltickets");
+        System.out.println(t.toString());
 
         /*
         System.out.println(NoCustomers);
@@ -299,8 +299,8 @@ public class BoundBuffer {
     }
 
 
-    public List<String[][]> ReadDatainFloder(String pathFolder) {
-        List<String[][]> Data = new ArrayList<String[][]>();
+    public ArrayList<String[][]> ReadDatainFloder(String pathFolder) {
+        ArrayList<String[][]> Data = new ArrayList<String[][]>();
         String[] filetext = Directorylist(pathFolder, 1);
         for (int i = 0; i < filetext.length; i++) {
             System.out.println(filetext[i]);
