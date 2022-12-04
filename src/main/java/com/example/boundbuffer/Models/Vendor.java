@@ -9,32 +9,53 @@ public class Vendor extends BoundBuffer{
     private int id;
     private String nameOfStore;
     private String imagepath;
+    private String username;
+    private String password;
     private String des;
-    private int noTickets=0;
+    private int noTickets;
     private int TotalnoTicketsIcludeQuntity=0;
 
+    private String pathInfofile;
     private ArrayList<Ticket> ticketsForSellByEveryVendor =null;
+    private String pathFolderTicketCreatedByVendor;
+    private String allPathForticketsCreatedByMe[];
 
-    public Vendor(String name,String imagepath,String des) {
+
+    public Vendor(String nameOfStore,String username,String password,String imagepath,String des) {
         super();
+        String[] nameofattribues = {"imagePath","id", "nameOfStore", "userName","password","Description","TicketsForSell","TicketsIncludeQuantity","pathFolderTicketsCreatedByMeToSave"}; //
         this.id = BoundBuffer.NoVendors;
-        this.nameOfStore = name;
+        BoundBuffer.NoVendors++;
+        setId(this.id,"D:\\Java programming\\OS2-project\\Bound-Buffer-Problem\\DataBase\\preload\\idVEN.txt");
+        this.nameOfStore = nameOfStore;
+        this.username = username;
+        this.password = password;
         this.imagepath = imagepath;
         this.des = des;
+        this.pathFolderTicketCreatedByVendor =super.NewFloder( "D:\\Java programming\\OS2-project\\Bound-Buffer-Problem\\DataBase\\ticketsVendors\\", String.valueOf(this.id)+" ["+username+"] "+"Tickets");
+        this.noTickets = NumberOftextFilesinFolder(pathFolderTicketCreatedByVendor);
+        String[] values = {imagepath,String.valueOf(this.id), nameOfStore, username, password,des,String.valueOf(noTickets),String.valueOf(TotalnoTicketsIcludeQuntity),this.pathFolderTicketCreatedByVendor};
         ticketsForSellByEveryVendor = new ArrayList<>();
-        BoundBuffer.NoVendors++;
         BoundBuffer.vendors.add(Vendor.this);
+        this.pathInfofile = Creetefiletxt(this.id+" ["+username+"] ","D:\\Java programming\\OS2-project\\Bound-Buffer-Problem\\DataBase\\vendors\\");
+        WriteData(this.pathInfofile,nameofattribues,values,9);
     }
-    public int addTicket(String name, String type,int qu ,double price, String imagepath,String des,String EndTime){
-        Ticket I = new Ticket(name,type,qu,price,imagepath,des,EndTime);
+    // String PathFolderOwner,String pathOwner,String name, String type, int quantity,double price, String imagePath, String description,String startTime ,String EndTime
+    public int addTicket(String name, String type,int quantity ,double price, String imagepath,String description,String startTime,String EndTime){
+
+        Ticket I = new Ticket(this.pathFolderTicketCreatedByVendor,pathInfofile,name,type,quantity,price,imagepath, description, startTime, EndTime);
         I.owner = Vendor.this;
-        ticketsForSellByEveryVendor.add(noTickets,I);
-        I.setIndexInVendor(noTickets);
+        ticketsForSellByEveryVendor.add(I);
+
+
+
         this.noTickets++;
-        this.TotalnoTicketsIcludeQuntity+=qu;
-        BoundBuffer.tickets.add(BoundBuffer.TotalNoTickets,I);
-        I.setIndexInCustomer(BoundBuffer.TotalNoTickets);
+
+        this.TotalnoTicketsIcludeQuntity+=quantity;
+        BoundBuffer.tickets.add(I);
+
         BoundBuffer.TotalNoTickets++;
+        setId(I.getId(),"D:\\Java programming\\OS2-project\\Bound-Buffer-Problem\\DataBase\\preload\\idTicket.txt");
         return 1;
     }
     public int deleteTicket(Ticket I){
@@ -125,7 +146,7 @@ public class Vendor extends BoundBuffer{
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy");
             try {
                 Date date = dateFormat.parse(newData);
-                t.setEndTime(  new SimpleDateFormat("yyyy-MM-dd").format(date));
+                t.setEndTime(  new SimpleDateFormat("dd-MM-yyyy").format(date));
             } catch (ParseException e) {
                 throw new RuntimeException(e);
             }
@@ -136,8 +157,8 @@ public class Vendor extends BoundBuffer{
         }
 
 
-        this.ticketsForSellByEveryVendor.set(t.getIndexInVendor(),t);
-        BoundBuffer.tickets.set(t.getIndexInCustomer(),t);
+        this.ticketsForSellByEveryVendor.add(t);
+        BoundBuffer.tickets.add(t);
         return 1;
     }
     public int getTotalNoTicketsIncludeQuantity(){
@@ -148,8 +169,8 @@ public class Vendor extends BoundBuffer{
 
     private int reduceQuantity(Ticket t,int q){
         t.setQuantity(q);
-        this.ticketsForSellByEveryVendor.set(t.getIndexInVendor(),t);
-        BoundBuffer.tickets.set(t.getIndexInCustomer(),t);
+        this.ticketsForSellByEveryVendor.add(t);
+        BoundBuffer.tickets.add(t);
         return 1;
 
     }

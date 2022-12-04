@@ -23,12 +23,38 @@ public class Ticket extends BoundBuffer{
     private Boolean available;
     private int quantity=0;
     private String Qrcode;
-    private int indexInVendor;
-    private int indexInCustomer;
+
+    private String pathOwner;
+    private String pathInFolderOwner;
+    private String pathInViewCT;
 
 
-    public int getIndexInVendor() {
-        return indexInVendor;
+    public void setQrcode(String qrcode) {
+        Qrcode = qrcode;
+    }
+
+    public String getPathOwner() {
+        return pathOwner;
+    }
+
+    public void setPathOwner(String pathOwner) {
+        this.pathOwner = pathOwner;
+    }
+
+    public String getPathInFolderOwner() {
+        return pathInFolderOwner;
+    }
+
+    public void setPathInFolderOwner(String pathInFolderOwner) {
+        this.pathInFolderOwner = pathInFolderOwner;
+    }
+
+    public String getPathInViewCT() {
+        return pathInViewCT;
+    }
+
+    public void setPathInViewCT(String pathInViewCT) {
+        this.pathInViewCT = pathInViewCT;
     }
 
     public String getStartTime() {
@@ -65,17 +91,6 @@ public class Ticket extends BoundBuffer{
         }
     }
 
-    public void setIndexInVendor(int indexInVendor) {
-        this.indexInVendor = indexInVendor;
-    }
-
-    public int getIndexInCustomer() {
-        return indexInCustomer;
-    }
-
-    public void setIndexInCustomer(int indexInCustomer) {
-        this.indexInCustomer = indexInCustomer;
-    }
 
     public int getQuantity() {
         return quantity;
@@ -85,23 +100,55 @@ public class Ticket extends BoundBuffer{
         this.quantity = quantity;
     }
 
-    public Ticket(String name, String type, int quantity,double price, String imagePath, String description, String EndTime) {
+    public Ticket(String PathFolderOwner,String pathOwner,String name, String type, int quantity,double price, String imagePath, String description,String startTime ,String EndTime) {
         super();
+        String[] nameofattribues = {"PathFolderOwner","PathOwner","PathInViewCT","imagePath","id", "name", "type","quantity","Description","StartTime","EndTime","price"}; //
         this.id = BoundBuffer.TotalNoTickets;
+        this.pathOwner = pathOwner;
+        this.pathInFolderOwner = PathFolderOwner;
         this.name = name;
         this.type = type;
-        this.quantity=quantity;
-        this.price = price;
+        if(quantity >0) this.quantity=quantity;
+        if(price >= 0) this.price = price;
         this.description = description;
         this.imagePath = imagePath;
         this.available = true;
-        startTime = super.now();
-        //endDate input as String
-        if(BoundBuffer.isValidFormat("dd-MM-yyyy",EndTime, Locale.ENGLISH)) this.endTime = EndTime;
 
+         //Dates as input
+        if(BoundBuffer.isValidFormat("dd-MM-yyyy",startTime,Locale.ENGLISH)) {
+            this.startTime = startTime;
+
+        }else{
+
+            return;
+        }
+        if(BoundBuffer.isValidFormat("dd-MM-yyyy",EndTime, Locale.ENGLISH)){
+            this.endTime = EndTime;
+        }
+        else{
+            return;
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+
+        try {
+            if(sdf.parse(this.endTime).after(sdf.parse(this.startTime))){
+                System.out.println("tickets for this event have dead");
+                return;
+            }
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        this.pathOwner = pathOwner;
+        this.pathInFolderOwner = Creetefiletxt(this.id+" ["+this.name+"] "+"["+this.startTime+"] "+"to "+" ["+this.endTime+"]",pathInFolderOwner+"\\");
+        this.pathInViewCT = Creetefiletxt(this.id+" ["+this.name+"] "+"["+this.startTime+"] "+"to "+" ["+this.endTime+"]","D:\\Java programming\\OS2-project\\Bound-Buffer-Problem\\DataBase\\alltickets\\");
+        //"PathFolderOwner","PathOwner","PathInViewCT","imagePath","id", "name", "type","quantity","description","StartTime","EndTime","price"
+        String[] values = {pathInFolderOwner,this.pathOwner,pathInViewCT,this.imagePath,String.valueOf(this.id), this.name, type,String.valueOf(this.quantity),description,this.startTime,this.endTime,String.valueOf(price)};
+        WriteData(this.pathInViewCT,nameofattribues,values,12);
+        WriteData(this.pathInFolderOwner,nameofattribues,values,12);
     }
 
-    /* another code for endData input
+    /*
+    another code for endData input
     *LocalDate ld = LocalDate.of( 2026 , 1 , 23 );
 
      *

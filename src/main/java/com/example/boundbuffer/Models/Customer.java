@@ -5,23 +5,31 @@ public class Customer extends BoundBuffer{
     private int id;
     private String name;
     private String Email;
+    private String password;
     private int noTicketPaidbyCustomers=0;
     private double balance;
     private Cart cart;
     private String Qrs[];
     private String pathForAllQrsFloderCT;
+    private String pathFileForInfo;
 
-    public Customer(String name,String email,double balance){
+    public Customer(String name,String email,String password,double balance){
         super();
+        String[] nameofattribues = {"id", "name", "email", "password","noTicketPaidbyCustomers","balance","pathForallQrsFloderCT"}; //
         this.id = BoundBuffer.NoCustomers;
         BoundBuffer.NoCustomers++;
+        setId(this.id,"D:\\Java programming\\OS2-project\\Bound-Buffer-Problem\\DataBase\\preload\\idCT.txt");
         this.name =name;
         this.Email = email;
+        this.password = password;
         this.balance = balance;
         cart = new Cart();
         Qrs = new String[20];
-        pathForAllQrsFloderCT =super.NewFloder( "D:\\Java programming\\OS2-project\\Bound-Buffer-Problem\\QrCodes\\Qrcodes\\Cust", String.valueOf(this.id));
+        pathForAllQrsFloderCT =super.NewFloder( "D:\\Java programming\\OS2-project\\Bound-Buffer-Problem\\DataBase\\QrCodesForCT", String.valueOf(this.id)+" ["+email+"]");
+        String[] values = {String.valueOf(this.id), name, email, password,String.valueOf(noTicketPaidbyCustomers), String.valueOf(balance),pathForAllQrsFloderCT};
         BoundBuffer.customers.add(Customer.this);
+        this.pathFileForInfo = Creetefiletxt(this.id+" ["+email+"] ","D:\\Java programming\\OS2-project\\Bound-Buffer-Problem\\DataBase\\Customers\\");
+        WriteData(this.pathFileForInfo,nameofattribues,values,7);
     }
     private int indexCart=0;
     public int addToCart(Ticket t,int quentatiy){
