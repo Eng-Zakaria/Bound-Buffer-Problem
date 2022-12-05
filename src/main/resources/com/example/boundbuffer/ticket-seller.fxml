@@ -6,23 +6,41 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="454.0" prefWidth="600.0" style="-fx-background-color: #212121;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.boundbuffer.TicketSellersController">
+<AnchorPane prefHeight="700.0" prefWidth="800.0" style="-fx-background-color: #212121;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.boundbuffer.TicketSellersController">
     <children>
-        <AnchorPane layoutX="20.0" layoutY="45.0" prefHeight="394.0" prefWidth="558.0" style="-fx-background-color: #757575;">
+        <AnchorPane layoutX="26.0" layoutY="53.0" prefHeight="616.0" prefWidth="747.0" style="-fx-background-color: #757575;">
             <children>
-                <Label layoutX="67.0" layoutY="38.0" text="Name :" underline="true" />
-                <Label layoutX="67.0" layoutY="81.0" text="Discription :" underline="true" />
-                <Label layoutX="67.0" layoutY="121.0" prefHeight="18.0" prefWidth="61.0" text="price :" underline="true" />
-                <Label layoutX="70.0" layoutY="171.0" text="Quantity :" textFill="#efe2e2" underline="true" />
-                <TextField layoutX="198.0" layoutY="35.0" prefHeight="26.0" prefWidth="255.0" style="-fx-background-color: #fafafa;" />
-                <TextField layoutX="198.0" layoutY="78.0" prefHeight="26.0" prefWidth="255.0" style="-fx-background-color: #fafafa;" />
-                <TextField layoutX="198.0" layoutY="127.0" prefHeight="26.0" prefWidth="255.0" style="-fx-background-color: #fafafa;" />
-                <TextField layoutX="198.0" layoutY="168.0" prefHeight="26.0" prefWidth="255.0" style="-fx-background-color: #fafafa;" />
-                <Button layoutX="72.0" layoutY="325.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="164.0" style="-fx-background-color: orange;" text="Back" />
-                <Button layoutX="364.0" layoutY="328.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="164.0" style="-fx-background-color: orange;" text="Add" />
+                <Label layoutX="141.0" layoutY="46.0" prefHeight="27.0" prefWidth="87.0" text="Name :" underline="true">
+                    <font>
+                        <Font size="18.0" />
+                    </font></Label>
+                <Label layoutX="141.0" layoutY="130.0" text="Discription :" underline="true">
+                    <font>
+                        <Font size="18.0" />
+                    </font></Label>
+                <Label layoutX="141.0" layoutY="204.0" prefHeight="18.0" prefWidth="61.0" text="price :" underline="true">
+                    <font>
+                        <Font size="18.0" />
+                    </font></Label>
+                <Label layoutX="141.0" layoutY="277.0" text="type :" textFill="#3e3a3a" underline="true">
+                    <font>
+                        <Font size="18.0" />
+                    </font></Label>
+                <TextField layoutX="319.0" layoutY="46.0" prefHeight="26.0" prefWidth="363.0" style="-fx-background-color: #fafafa;" />
+                <TextField layoutX="319.0" layoutY="126.0" prefHeight="26.0" prefWidth="363.0" style="-fx-background-color: #fafafa;" />
+                <TextField layoutX="319.0" layoutY="205.0" prefHeight="26.0" prefWidth="363.0" style="-fx-background-color: #fafafa;" />
+                <TextField layoutX="319.0" layoutY="278.0" prefHeight="26.0" prefWidth="363.0" style="-fx-background-color: #fafafa;" />
+                <Button fx:id="backbutton" layoutX="34.0" layoutY="550.0" mnemonicParsing="false" onAction="#back" prefHeight="30.0" prefWidth="302.0" style="-fx-background-color: orange;" text="Back" />
+                <Button fx:id="addbutton" layoutX="426.0" layoutY="550.0" mnemonicParsing="false" onAction="#add" prefHeight="30.0" prefWidth="279.0" style="-fx-background-color: orange;" text="Add" />
+                <Label layoutX="138.0" layoutY="350.0" text="image path :" underline="true">
+                    <font>
+                        <Font size="18.0" />
+                    </font>
+                </Label>
+                <TextField layoutX="319.0" layoutY="346.0" prefHeight="26.0" prefWidth="372.0" />
             </children>
         </AnchorPane>
-        <Label layoutX="256.0" prefHeight="27.0" prefWidth="87.0" style="-fx-background-color: #fafafa;" text="   Tickets  " textFill="#201f1f">
+        <Label layoutX="363.0" prefHeight="27.0" prefWidth="87.0" style="-fx-background-color: #fafafa;" text="   Tickets  " textFill="#201f1f">
             <font>
                 <Font size="18.0" />
             </font>

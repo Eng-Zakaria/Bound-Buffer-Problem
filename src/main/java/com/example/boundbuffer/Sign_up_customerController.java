@@ -9,29 +9,27 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class SignupController {
+public class Sign_up_customerController {
 
     private Stage stage;
     private Scene scene;
     private Parent root;
-    public void vendor_signup(ActionEvent event) throws IOException {
 
-        Parent root = FXMLLoader.load(getClass().getResource("Sign_up_vendor.fxml"));
+    public void signUp(ActionEvent event) throws IOException {
+
+        Parent root = FXMLLoader.load(getClass().getResource("customer.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
     }
+    public void back(ActionEvent event) throws IOException {
 
-
-    public void customer_signup(ActionEvent event) throws IOException {
-
-        Parent root = FXMLLoader.load(getClass().getResource("Sign_up_customer.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("Sign_up.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
     }
-
 
 }

@@ -17,7 +17,7 @@ public class HelloApplication extends Application {
         Scene scene = new Scene(fxmlLoader.load());
         stage.setResizable(false);
         stage.setTitle("tazkarti");
-        stage.getIcons().add(new Image("C:\\Users\\LAPTOP\\IdeaProjects\\Bound-Buffer-Problem\\src\\main\\resources\\com\\example\\boundbuffer\\images\\soccer-icon.png"));
+       // stage.getIcons().add(new Image("E:\\datascience\\pro\\src\\main\\resources\\com\\example\\boundbuffer\\images \\soccer-icon.png"));
         stage.setScene(scene);
         stage.show();
 

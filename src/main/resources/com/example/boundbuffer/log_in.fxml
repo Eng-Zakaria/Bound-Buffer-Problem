@@ -25,12 +25,12 @@
                 <Font name="Segoe Print Bold" size="18.0" />
             </font>
         </Label>
-        <Button layoutX="93.0" layoutY="318.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="141.0" style="-fx-background-color: orange;" text="Sign up">
+        <Button fx:id="signupController" layoutX="434.0" layoutY="340.0" mnemonicParsing="false" onAction="#signup" prefHeight="32.0" prefWidth="141.0" style="-fx-background-color: orange;" text="Sign up">
             <font>
                 <Font name="Segoe UI Black Italic" size="14.0" />
             </font>
         </Button>
-        <Button layoutX="406.0" layoutY="314.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="142.0" style="-fx-background-color: orange;" text="Home">
+        <Button fx:id="loginController" layoutX="105.0" layoutY="316.0" mnemonicParsing="false" onAction="#home" prefHeight="40.0" prefWidth="142.0" style="-fx-background-color: orange;" text="log in">
             <font>
                 <Font name="Segoe UI Black Italic" size="14.0" />
             </font>
