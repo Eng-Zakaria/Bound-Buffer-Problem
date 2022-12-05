@@ -14,11 +14,12 @@
     <children>
         <TableView fx:id="Customer_table" layoutY="-1.0" prefHeight="585.0" prefWidth="802.0" style="-fx-background-color: ffffff;" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
             <columns>
-                <TableColumn prefWidth="160.0" text="Ticket" />
-                <TableColumn prefWidth="160.0" style="-fx-background-color: #20562a;" text="Price" />
-                <TableColumn prefWidth="160.0" text="Add_Cart" />
-                <TableColumn prefWidth="160.0" style="-fx-background-color: #20562a;" text="Add_Cart" />
-                <TableColumn prefWidth="150.0" text="Show_Details" />
+                <TableColumn fx:id="imageid" prefWidth="167.20001828670502" text="image" />
+                <TableColumn fx:id="nameid" prefWidth="160.0" text="Name" />
+                <TableColumn fx:id="priceid" minWidth="0.0" prefWidth="119.20001220703125" text="Price" />
+            <TableColumn fx:id="starttimeid" prefWidth="117.59988403320312" text="starttime" />
+            <TableColumn fx:id="cuantid" prefWidth="112.00006103515625" text="cuantity" />
+            <TableColumn fx:id="desid" prefWidth="123.20004882812498" text="description" />
             </columns>
             <opaqueInsets>
                 <Insets />
@@ -40,5 +41,6 @@
                 <Font size="15.0" />
             </font>
         </Label>
+      <Button fx:id="buypageid" layoutX="338.0" layoutY="635.0" mnemonicParsing="false" onAction="#buypage" text="Button" />
     </children>
 </AnchorPane>

@@ -23,8 +23,8 @@ public class HelloController {
     private Parent root;
 
 
-    public void Buy(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("customer.fxml"));
+    public void login(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("log_in.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
@@ -33,8 +33,8 @@ public class HelloController {
 
 
 
-    public void Sell(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("ticket-seller.fxml"));
+    public void signup(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("Sign_up.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
