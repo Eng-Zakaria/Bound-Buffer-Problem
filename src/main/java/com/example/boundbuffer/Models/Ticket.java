@@ -6,7 +6,6 @@ import com.google.zxing.WriterException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Locale;
 
 public class Ticket extends BoundBuffer{
     private int id;
@@ -19,7 +18,7 @@ public class Ticket extends BoundBuffer{
     private String endTime;
 
 
-    public Vendor owner;
+    private Vendor owner;
     private Boolean available;
     private int quantity=0;
     private String Qrcode;
@@ -27,6 +26,8 @@ public class Ticket extends BoundBuffer{
     private String pathOwner;
     private String pathInFolderOwner;
     private String pathInViewCT;
+    private int issold=0;
+    private int deadticket=0;
 
 
     public void setQrcode(String qrcode) {
@@ -77,7 +78,15 @@ public class Ticket extends BoundBuffer{
         return Qrcode;
     }
 
-    public void generateQrcode(String path,String data)
+    public int getIssold() {
+        return issold;
+    }
+
+    public void setIssold(int issold) {
+        this.issold = issold;
+    }
+
+    public void generateQrcode(String path, String data)
     {
         try {
             QR_Generate.CearteQr(path,data);
@@ -98,47 +107,45 @@ public class Ticket extends BoundBuffer{
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+
+        //editValueLine(this.pathInFolderOwner,"quantity",,)
+
+
     }
 
-    public Ticket(String PathFolderOwner,String pathOwner,String name, String type, int quantity,double price, String imagePath, String description,String startTime ,String EndTime) {
+    public int getDeadticket() {
+        return deadticket;
+    }
+
+    public void setDeadticket(int deadticket) {
+        this.deadticket = deadticket;
+    }
+
+    public Ticket(String PathFolderOwner, String pathOwner, String name, String type, int quantity, double price, String imagePath, String description, String startTime , String EndTime,int newTicket) {
         super();
-        String[] nameofattribues = {"PathFolderOwner","PathOwner","PathInViewCT","imagePath","id", "name", "type","quantity","Description","StartTime","EndTime","price"}; //
-        this.id = BoundBuffer.TotalNoTickets;
+
         this.pathOwner = pathOwner;
         this.pathInFolderOwner = PathFolderOwner;
         this.name = name;
         this.type = type;
-        if(quantity >0) this.quantity=quantity;
-        if(price >= 0) this.price = price;
+        this.quantity=quantity;
+        this.price = price;
         this.description = description;
         this.imagePath = imagePath;
+
+        this.endTime = EndTime;
+        this.startTime = startTime;
+
+        if(newTicket != 1)
+            return;
+
+
         this.available = true;
 
-         //Dates as input
-        if(BoundBuffer.isValidFormat("dd-MM-yyyy",startTime,Locale.ENGLISH)) {
-            this.startTime = startTime;
+        this.issold = 0;
 
-        }else{
-
-            return;
-        }
-        if(BoundBuffer.isValidFormat("dd-MM-yyyy",EndTime, Locale.ENGLISH)){
-            this.endTime = EndTime;
-        }
-        else{
-            return;
-        }
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-
-        try {
-            if(sdf.parse(this.endTime).before(sdf.parse(this.startTime))){
-                System.out.println("tickets for this event have dead");
-                return;
-            }
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
-        this.pathOwner = pathOwner;
+        this.id = BoundBuffer.TotalNoTickets;
+        String[] nameofattribues = {"PathFolderOwner","PathOwner","PathInViewCT","imagePath","id", "name", "type","quantity","Description","StartTime","EndTime","price"}; //
         this.pathInFolderOwner = Creetefiletxt(this.id+" ["+this.name+"] "+"["+this.startTime+"] "+"to "+" ["+this.endTime+"]",pathInFolderOwner+"\\");
         this.pathInViewCT = Creetefiletxt(this.id+" ["+this.name+"] "+"["+this.startTime+"] "+"to "+" ["+this.endTime+"]","D:\\Java programming\\OS2-project\\Bound-Buffer-Problem\\DataBase\\alltickets\\");
         //"PathFolderOwner","PathOwner","PathInViewCT","imagePath","id", "name", "type","quantity","description","StartTime","EndTime","price"
@@ -155,6 +162,9 @@ public class Ticket extends BoundBuffer{
     *
      */
 
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -235,7 +245,8 @@ public class Ticket extends BoundBuffer{
     * */
     public Boolean sold(){
         if(available ==true){
-            available =false;
+            setIssold(1);
+            setAvailable(false);
             return true;
         }else {
 
@@ -246,37 +257,57 @@ public class Ticket extends BoundBuffer{
 
 
     }
+
     public int buy(Customer c,int quantity){
+
+        System.out.println("---------------------receipt for ticket: \\\\\" "+this.name+" \\\\\"---------------------------");
         if(this.quantity == 0 || this.available == false || quantity > this.quantity){
             System.out.println("those tickets are not available "+this.name);
             return 0;
         }
 
+        if(this.getDeadticket() == 1)
+            return -1;
+
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-        System.out.println(this.endTime);
-        System.out.println(now());
+
+
         try {
             if(sdf.parse(now()).after(sdf.parse(this.endTime))){
                 System.out.println("tickets for this event have dead");
+                this.setDeadticket(1);
                 return -1;
             }
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
+
         if(c.getBalance() < (this.price * quantity)){
-            System.out.println("your balance is not enough to checkout for these tickets: "+this.name+" your balance: "+c.getBalance());
+            System.out.println("your balance is not enough to checkout for these tickets: "+this.name+" your balance: "+c.getBalance()+"change is :"+ ( (quantity*price) - c.getBalance()) );
             return -2;
-        }else {
-            this.quantity -= quantity;
         }
 
         this.owner.soldTicket(Ticket.this,quantity);
-        System.out.println("your charage: "+c.getBalance());
+
+
+        System.out.println("The date of purchase: "+now());
+
+        System.out.println("your total balance is: "+c.getBalance());
+
         c.setBalance(c.getBalance()-(this.price*quantity));
+
+        System.out.println("the price for single ticket ["+this.name +"] is: "+this.price);
+        System.out.println("so total price for all tickets\n"+"you need: "+quantity +"for event "+this.name);
+        System.out.println("the amount to pay for ticket(s)["+this.name+"]: "+this.price * quantity+"\n"+" your balance after amount and tax: "+c.getBalance()+"\n"+"you will receive tickets on your email ASAP when we receive the a mount keep check your email\n"+"event name: "+this.name+"\n we will see you at from date: "+startTime+"to: "+endTime+"\n Don't be late(0_-)\n");
+
         c.increasetNoTicketPaidbyCustomers(quantity);
-        this.generateQrcode(c.getPathForAllQrsFloder()+"\\"+c.getIndexQr()+this.name+"[" +this.owner.getNameOfStore() +"]"+".png",c.getEmail()+" id:"+String.valueOf(c.getId())+this.startTime+" End:"+this.endTime);
+        System.out.println("the number of tickets you have: "+c.getNoTicketPaidbyCustomers());
+
+        this.generateQrcode(c.getPathForAllQrsFloder()+"\\"+c.getIndexQr()+this.name+"[" +this.owner.getNameOfStore() +"]"+".png",  "owner: "+this.owner.getNameOfStore()+"\nname of event: "+this.name+"idEvent: "+this.id+"\nEmail: "+c.getEmail()+"\n customer's id: "+String.valueOf(c.getId())+"\nStart Time:"+this.startTime+" End Time:"+this.endTime+"\n number of person: "+ quantity+"The date of purchase : "+now());
+
         c.recieveQr(this.Qrcode);
-        System.out.println("the amount to pay: "+this.price+"\n"+" your balance after amount and tax: "+c.getBalance()+"\n"+"you will receive tickets on your email ASAP when we receive the a mount keep check your email "+"event name: "+this.name+"we will see you at date :"+endTime+" Don't be late");
+        System.out.println("quantity ");
+        System.out.println(quantity);
         System.out.println("-------------------recipt-------------------------");
         return 1;
 

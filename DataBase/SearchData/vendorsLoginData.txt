@@ -1,0 +1,24 @@
+account: mo1
+password: 2468
+deleted: 0
+islogin: 0
+pathInfo: D:\Java programming\OS2-project\Bound-Buffer-Problem\DataBase\vendors\0 [mo1] .txt
+
+account: mo12
+password: 24689
+deleted: 0
+islogin: 0
+pathInfo: D:\Java programming\OS2-project\Bound-Buffer-Problem\DataBase\vendors\1 [mo12] .txt
+
+account: mo123
+password: 24680
+deleted: 0
+islogin: 0
+pathInfo: D:\Java programming\OS2-project\Bound-Buffer-Problem\DataBase\vendors\2 [mo123] .txt
+
+account: userstore1
+password: 9999
+deleted: 0
+islogin: 0
+pathInfo: D:\Java programming\OS2-project\Bound-Buffer-Problem\DataBase\vendors\3 [userstore1] .txt
+

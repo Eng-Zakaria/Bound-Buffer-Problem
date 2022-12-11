@@ -1,0 +1,9 @@
+imagePath: .pgn
+id: 3
+nameOfStore: store1
+userName: userstore1
+password: 9999
+Description: my store is the best
+TicketsForSell: 0
+TicketsIncludeQuantity: 0
+pathFolderTicketsCreatedByMeToSave: D:\Java programming\OS2-project\Bound-Buffer-Problem\DataBase\ticketsVendors\3 [userstore1] Tickets

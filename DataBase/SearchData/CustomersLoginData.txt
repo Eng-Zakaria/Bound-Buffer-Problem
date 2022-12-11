@@ -1,0 +1,30 @@
+account: ali1@gmail.com
+password: 1234
+deleted: 0
+islogin: 0
+pathInfo: D:\Java programming\OS2-project\Bound-Buffer-Problem\DataBase\Customers\0 [ali1@gmail.com] .txt
+
+account: ali12@gmail.com
+password: 12345
+deleted: 0
+islogin: 0
+pathInfo: D:\Java programming\OS2-project\Bound-Buffer-Problem\DataBase\Customers\1 [ali12@gmail.com] .txt
+
+account: ali13@gmail.com
+password: 12346
+deleted: 0
+islogin: 0
+pathInfo: D:\Java programming\OS2-project\Bound-Buffer-Problem\DataBase\Customers\2 [ali13@gmail.com] .txt
+
+account: nour@gmail.com
+password: 12345
+deleted: 0
+islogin: 0
+pathInfo: D:\Java programming\OS2-project\Bound-Buffer-Problem\DataBase\Customers\3 [nour@gmail.com] .txt
+
+account: jou12@gmail.com
+password: j123
+deleted: 0
+islogin: 0
+pathInfo: D:\Java programming\OS2-project\Bound-Buffer-Problem\DataBase\Customers\4 [jou12@gmail.com] .txt
+

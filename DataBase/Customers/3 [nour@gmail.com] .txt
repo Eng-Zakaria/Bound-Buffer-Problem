@@ -1,0 +1,7 @@
+id: 3
+name: nour
+email: nour@gmail.com
+password: 12345
+noTicketPaidbyCustomers: 0
+balance: 9000.0
+pathForallQrsFloderCT: D:\Java programming\OS2-project\Bound-Buffer-Problem\DataBase\QrCodesForCT\3 [nour@gmail.com]

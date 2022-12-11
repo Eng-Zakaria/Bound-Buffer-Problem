@@ -111,14 +111,16 @@ public class Cart {
         this.quentatiyForEachTickets = quentatiyForEachTickets;
     }
     public int setNewCart(){
+        System.out.println("in set new");
         ticketsCart = null;
         quentatiyForEachTickets = null;
+        totalNumberInCart = 0;
         ticketsCart = new Ticket[10];
         quentatiyForEachTickets = new int[10];
         return 1;
     }
 
-    public int reduceAndIncreaseQuentatiy(Ticket t, int NewQuentatiy){
+    public int changeQuentatiy(Ticket t, int NewQuentatiy){
         int indexTobeChanage = searchInCart(t);
         if (noTicketsInCart == 0 || t == null || ticketsCart == null || indexTobeChanage == -1){
             System.out.println("invaild input");
