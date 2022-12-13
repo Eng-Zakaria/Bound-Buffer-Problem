@@ -1,23 +1,27 @@
 package com.example.boundbuffer;
+import java.util.concurrent.*;
 
-public class MultiThreading {
-    int size;
-    private int noCustomers;
-    private int noVendors;
+public class MultiThreading implements Runnable {
 
-    MultiThreading(int size , int noCustomers, int noVendors ){
-        this.size= size;
-        this.noCustomers = noCustomers;
-        this.noVendors = noVendors;
+
+    @Override
+    public void run() {
+        MainController threads = new MainController();
+
+
+        for(int i=0; i>threads.noCustomers.length; i++){
+            Thread [] customersThread = new Thread[i];
+            customersThread[i].start();
+        }
+        for(int i=0; i>threads.noVendors.length; i++){
+            Thread [] vendorsThread = new Thread[i];
+            vendorsThread[i].start();
+        }
+
+
     }
+    public static void main(String[]args){
 
-    MultiThreading(){
-        this.size= 10;
-        this.noCustomers = 6;
-        this.noVendors = 4;
     }
-
-
-
 
 }
