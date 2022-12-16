@@ -76,8 +76,13 @@ public class SignupVendorController {
     }
     public void backToLogin(ActionEvent event) throws Exception {
 
-        General general = new General();
-        general.changeScene(event, "hello-view.fxml");
+        try{
+            General general = new General();
+            general.changeScene(event,"hello-view.fxml");
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
 

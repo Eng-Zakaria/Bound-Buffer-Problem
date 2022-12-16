@@ -2,37 +2,41 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="650.0" style="-fx-background-color: #202020;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.boundbuffer.HelloController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="400.0" prefWidth="407.0" style="-fx-background-color: Silver;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.boundbuffer.HelloController">
    <children>
-      <Button fx:id="sign_upid" alignment="CENTER" layoutX="115.0" layoutY="487.0" mnemonicParsing="false" onAction="#signup" prefHeight="39.0" prefWidth="148.0" style="-fx-background-color: #20562a; -fx-background-radius: 15;" text="sign up" textFill="WHITE">
+      <Button fx:id="changeLoginBtn" layoutX="126.0" layoutY="266.0" mnemonicParsing="false" onAction="#changeToLoginView" prefHeight="26.0" prefWidth="153.0" text="Login" textAlignment="CENTER">
          <font>
-            <Font name="System Bold Italic" size="18.0" />
+            <Font size="14.0" />
          </font>
       </Button>
-      <Button fx:id="logid" layoutX="409.0" layoutY="487.0" mnemonicParsing="false" onAction="#login" prefHeight="39.0" prefWidth="148.0" style="-fx-background-color: #20562a; -fx-background-radius: 15;" text="log in" textFill="WHITE">
+      <TextField fx:id="usernameTextField" layoutX="82.0" layoutY="110.0" prefHeight="26.0" prefWidth="242.0" promptText="Email or Username" />
+      <TextField fx:id="passwordTextField" layoutX="82.0" layoutY="187.0" prefHeight="26.0" prefWidth="242.0" promptText="Password" />
+      <Label layoutX="71.0" layoutY="76.0" prefHeight="28.0" prefWidth="51.0" text=" Email">
          <font>
-            <Font name="System Bold Italic" size="18.0" />
-         </font>
-      </Button>
-      <Label alignment="CENTER" layoutX="189.0" layoutY="326.0" prefHeight="46.0" prefWidth="294.0" text="اعتبرها اتحجزت" textFill="WHITE">
-         <font>
-            <Font name="System Bold Italic" size="35.0" />
+            <Font size="19.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" layoutX="53.0" layoutY="388.0" prefHeight="51.0" prefWidth="577.0" text="لن يسمح بحضور اى مشجع بدون بطاقة المشجع والتذكرة " textFill="WHITE">
+      <Label layoutX="77.0" layoutY="153.0" prefHeight="28.0" prefWidth="98.0" text="Passowrd">
          <font>
-            <Font name="System Bold Italic" size="24.0" />
+            <Font size="19.0" />
          </font>
       </Label>
-      <ImageView fitHeight="327.0" fitWidth="650.0">
-         <image>
-            <Image url="@images/taha.jpeg" />
-         </image>
-      </ImageView>
+      <Button fx:id="changeSignupCustomerBtn" layoutX="26.0" layoutY="352.0" mnemonicParsing="false" onAction="#changeToSignupCustomerView" prefHeight="28.0" prefWidth="142.0" text="Sign Up As A Customer" />
+      <Label layoutX="77.0" layoutY="322.0" prefHeight="18.0" prefWidth="182.0" text="Are You a new user?">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Button fx:id="getChangeSignupVendorBtn" layoutX="249.0" layoutY="352.0" mnemonicParsing="false" onAction="#changeToSignupVendorView" prefHeight="28.0" prefWidth="129.0" text="Sign Up As A Vendor" />
+      <Label layoutX="35.0" layoutY="14.0" prefHeight="47.0" prefWidth="334.0" text="Welcome To Tazkarty" textAlignment="CENTER">
+         <font>
+            <Font name="Arial Bold" size="32.0" />
+         </font>
+      </Label>
+      <Label fx:id="invalidInputLabel" layoutX="88.0" layoutY="223.0" prefHeight="26.0" prefWidth="214.0" text="Label" textFill="RED" />
    </children>
 </AnchorPane>

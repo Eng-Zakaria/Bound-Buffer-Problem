@@ -3,8 +3,6 @@ package com.example.boundbuffer;
 import com.example.boundbuffer.Models.BoundBuffer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -12,9 +10,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-import javafx.scene.*;
 import java.io.IOException;
-import java.util.Objects;
 
 public class SignupCustomerController {
 
@@ -42,7 +38,7 @@ public class SignupCustomerController {
 
     // String name,String email,String password,double balance
 
-    public void signUp(ActionEvent event) throws IOException {
+    public void signUpCustomer(ActionEvent event) throws IOException {
         try {
             if (!(customerNameTxt.getText().equals("") || emailTxt.getText().equals("") || passwordTxt.getText().equals("") || balanceTxt.getText().equals("") )) {
                 //String nameOfStore,String username,String password,String imagepath,String des
@@ -62,9 +58,14 @@ public class SignupCustomerController {
         }
     }
     public void backToLogin(ActionEvent event) throws Exception {
+        try{
+            General general = new General();
+            general.changeScene(event,"hello-view.fxml");
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
 
-        General general = new General();
-        general.changeScene(event,"hello-view");
     }
 
 }

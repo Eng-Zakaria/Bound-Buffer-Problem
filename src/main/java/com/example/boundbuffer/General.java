@@ -19,10 +19,6 @@ public class General {
         return Integer.parseInt(text);
     }
     @FXML
-    private AnchorPane anchorRoot;
-    @FXML
-    private StackPane parentContainer;
-    @FXML
     Stage stage;
     @FXML
     Scene scene;

@@ -1,13 +1,125 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.boundbuffer.VendorsController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="505.0" prefWidth="677.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.boundbuffer.VendorsController">
    <children>
-      <Button layoutX="300.0" layoutY="110.0" mnemonicParsing="false" text="Button" />
-      <ComboBox layoutX="97.0" layoutY="159.0" prefWidth="150.0" />
+      <TabPane prefHeight="456.0" prefWidth="678.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="View My Tickets">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView layoutX="-4.0" prefHeight="426.0" prefWidth="678.0">
+                          <columns>
+                            <TableColumn prefWidth="75.0" text="C1" />
+                            <TableColumn prefWidth="75.0" text="C2" />
+                          </columns>
+                        </TableView>
+                     </children></AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Add Tickets">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <HBox prefHeight="366.0" prefWidth="678.0">
+                           <children>
+                              <VBox alignment="TOP_RIGHT" prefHeight="431.0" prefWidth="327.0" spacing="10.0">
+                                 <children>
+                                    <Label prefHeight="0.0" prefWidth="146.0" text="Ticket Title">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="191.0" layoutY="10.0" prefHeight="0.0" prefWidth="146.0" text="Type">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="191.0" layoutY="54.0" prefHeight="0.0" prefWidth="146.0" text="Quantity">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="191.0" layoutY="98.0" prefHeight="0.0" prefWidth="146.0" text="Price">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="191.0" layoutY="142.0" prefHeight="0.0" prefWidth="146.0" text="Image">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="191.0" layoutY="186.0" prefHeight="0.0" prefWidth="146.0" text="Description">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="191.0" layoutY="230.0" prefHeight="0.0" prefWidth="146.0" text="Start Time">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="191.0" layoutY="274.0" prefHeight="0.0" prefWidth="146.0" text="Expiry Time">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                                 <padding>
+                                    <Insets top="20.0" />
+                                 </padding>
+                              </VBox>
+                              <VBox layoutX="10.0" layoutY="10.0" prefHeight="366.0" prefWidth="294.0" spacing="15.0">
+                                 <children>
+                                    <TextField fx:id="ticketTitleTxt" prefHeight="0.0" prefWidth="294.0" />
+                                    <TextField fx:id="ticketTypeTxt" prefHeight="26.0" prefWidth="294.0" />
+                                    <Spinner fx:id="quantitySpinner" editable="true" prefHeight="26.0" prefWidth="349.0" />
+                                    <Spinner fx:id="priceSpinner" editable="true" prefHeight="26.0" prefWidth="339.0" />
+                                    <TextField fx:id="imagePathTxt" />
+                                    <TextField fx:id="ticketDescriptionTxt" layoutX="10.0" layoutY="196.0" />
+                                    <DatePicker fx:id="startTime" prefHeight="26.0" prefWidth="465.0" />
+                                    <DatePicker fx:id="expiryTime" prefHeight="26.0" prefWidth="414.0" />
+                                 </children>
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                                 <padding>
+                                    <Insets top="20.0" />
+                                 </padding>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <Button fx:id="addTicketBtn" layoutX="303.0" layoutY="387.0" mnemonicParsing="false" onAction="#addTicket" text="Add Ticket" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+      <HBox alignment="CENTER_RIGHT" layoutX="-1.0" layoutY="459.0" prefHeight="47.0" prefWidth="678.0" spacing="60.0">
+         <children>
+            <Button fx:id="backToLogin" alignment="CENTER" layoutX="412.0" layoutY="20.0" mnemonicParsing="false" onAction="#back" prefHeight="27.0" prefWidth="92.0" text="Back to Login" />
+            <Button fx:id="Exit" alignment="CENTER" layoutX="556.0" layoutY="20.0" mnemonicParsing="false" onAction="#exit" prefHeight="27.0" prefWidth="82.0" text="Exit" />
+         </children>
+         <padding>
+            <Insets right="50.0" />
+         </padding>
+      </HBox>
    </children>
 </AnchorPane>

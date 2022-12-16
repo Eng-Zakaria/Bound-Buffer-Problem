@@ -9,14 +9,17 @@ public class MultiThreading implements Runnable {
         MainController threads = new MainController();
 
 
-        for(int i=0; i>threads.noCustomers.length; i++){
-            Thread [] customersThread = new Thread[i];
-            customersThread[i].start();
-        }
-        for(int i=0; i>threads.noVendors.length; i++){
-            Thread [] vendorsThread = new Thread[i];
-            vendorsThread[i].start();
-        }
+
+
+
+//        for(int i=0; i>threads.noCustomers.length; i++){
+//            Thread [] customersThread = new Thread[i];
+//            customersThread[i].start();
+//        }
+//        for(int i=0; i>threads.noVendors.length; i++){
+//            Thread [] vendorsThread = new Thread[i];
+//            vendorsThread[i].start();
+//        }
 
 
     }

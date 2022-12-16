@@ -15,7 +15,7 @@
    <children>
       <HBox alignment="CENTER" layoutY="342.0" prefHeight="50.0" prefWidth="410.0" spacing="100.0">
          <children>
-            <Button fx:id="backToLoginBtn" mnemonicParsing="false" prefHeight="0.0" prefWidth="116.0" text="Back to Login" />
+            <Button fx:id="backToLoginBtn" mnemonicParsing="false" onAction="#backToLogin" prefHeight="0.0" prefWidth="116.0" text="Back to Login" />
             <Button fx:id="confirmSignupVendorBtn" layoutX="157.0" layoutY="22.0" mnemonicParsing="false" onAction="#signUpVendor" prefHeight="0.0" prefWidth="116.0" text="Sign Up" />
          </children>
       </HBox>

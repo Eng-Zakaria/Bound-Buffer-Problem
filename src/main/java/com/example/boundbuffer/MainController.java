@@ -19,12 +19,14 @@ import javafx.stage.Stage;
 
 import java.awt.*;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class MainController extends Application {
 
-    final int[] noCustomers = new int[1];
-    final int[] noVendors = new int[1];
 
+
+     int noCustomers;
+     int noVendors;
 
     @Override
     public void start(Stage primarystage) throws IOException {
@@ -70,10 +72,10 @@ public class MainController extends Application {
             rnuBtn.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    noCustomers[0] = (int) noCustomersSpinner.getValue();
-                    System.out.println(noCustomers[0]);
-                    noVendors[0] = (int) noVendorsSpinner.getValue();
-                    System.out.println(noVendors[0]);
+                    noCustomers = (int) noCustomersSpinner.getValue();
+                    System.out.println(noCustomers);
+                    noVendors = (int) noVendorsSpinner.getValue();
+                    System.out.println(noVendors);
 
                 }
 
