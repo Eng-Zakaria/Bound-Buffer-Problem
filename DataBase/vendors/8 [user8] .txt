@@ -1,0 +1,9 @@
+imagePath: .jpg
+id: 8
+nameOfStore: v8
+userName: user8
+password: v12348
+Description: dfdadfsad
+TicketsForSell: 0
+TicketsIncludeQuantity: 0
+pathFolderTicketsCreatedByMeToSave: D:\Java programming\OS2-project\Bound-Buffer-Problem\DataBase\ticketsVendors\8 [user8] Tickets

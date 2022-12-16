@@ -1,0 +1,12 @@
+PathFolderOwner: D:\Java programming\OS2-project\Bound-Buffer-Problem\DataBase\ticketsVendors\8 [user8] Tickets\44 [tiket 4 user8] [17-12-2022] to  [20-12-2022].txt
+PathOwner: D:\Java programming\OS2-project\Bound-Buffer-Problem\DataBase\vendors\8 [user8] .txt
+PathInViewCT: D:\Java programming\OS2-project\Bound-Buffer-Problem\DataBase\alltickets\44 [tiket 4 user8] [17-12-2022] to  [20-12-2022].txt
+imagePath: .png
+id: 44
+name: tiket 4 user8
+type: gold
+quantity: 120
+Description: Event description
+StartTime: 17-12-2022
+EndTime: 20-12-2022
+price: 10.0

@@ -1,0 +1,7 @@
+id: 6
+name: m6
+email: m6@gmail.com
+password: c12346
+noTicketPaidbyCustomers: 0
+balance: 10000.0
+pathForallQrsFloderCT: D:\Java programming\OS2-project\Bound-Buffer-Problem\DataBase\QrCodesForCT\6 [m6@gmail.com]
