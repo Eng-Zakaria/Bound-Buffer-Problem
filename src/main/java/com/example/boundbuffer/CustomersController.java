@@ -28,6 +28,7 @@ public class CustomersController {
     @FXML
     Label Ticket_num;
 
+
     public void back(ActionEvent event) throws IOException {
 
         Parent root = FXMLLoader.load(getClass().getResource("hello-view.fxml"));
@@ -36,6 +37,8 @@ public class CustomersController {
         stage.setScene(scene);
         stage.show();
     }
+
+
 
 
 
