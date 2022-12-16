@@ -151,8 +151,6 @@ public class Ticket extends BoundBuffer{
             return;
 
 
-        this.available = true;
-
         this.issold = 0;
 
         this.id = BoundBuffer.TotalNoTickets;

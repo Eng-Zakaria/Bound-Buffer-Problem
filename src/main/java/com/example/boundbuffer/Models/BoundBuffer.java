@@ -27,7 +27,6 @@ public class BoundBuffer {
     public static int newStateForticketsread = 1;
     public static int loadAllTicks = 1;
 
-    private String pathDerectory;
 
 
     public BoundBuffer() {
@@ -46,14 +45,13 @@ public class BoundBuffer {
         System.out.println(vendors.toString());
         System.out.println(customers.toString());
 
-   /*
-        for (int i=0;i< 10;i++)
-            customers.add(new Customer("m"+i,"m"+i+"@gmail.com","c1234"+i,10000.0,1));
-
-
-        for (int i=0;i< 10;i++)
-            vendors.add(new Vendor("v"+i,"user"+i,"v1234"+i,".jpg","dfdadfsad",1));
+/*
+        for (int i=0;i< 10;i++) {
+            customers.add(new Customer("m" + i, "m" + i + "@gmail.com", "c1234" + i, 10000.0, 1));
+            vendors.add(new Vendor("v" + i, "user" + i, "v1234" + i, ".jpg", "dfdadfsad", 1));
+        }
 */
+
 
 
       for (int i=0;i<20;i++) {
@@ -99,7 +97,7 @@ public class BoundBuffer {
 
         System.out.println("         ----------------------------------------");
         System.out.println("----------------MultiThreading----------------------------");
-        System.out.println("         ----------------------------------------");
+        System.out.println("     ---------------------------------------------------");
 
 
         for (int i=0;i<customers.size();i++)
@@ -110,7 +108,7 @@ public class BoundBuffer {
 
         System.out.println("         ----------------------------------------");
         System.out.println("----------------MultiThreading----------------------------");
-        System.out.println("         ----------------------------------------");
+        System.out.println("      --------------------------------------------------------------------");
 
         for (int i=0;i< customers.size();i++) {
             System.out.println("customer name: "+customers.get(i).getName()+" tickets that's paid by: "+customers.get(i).getNoTicketPaidbyCustomers());
@@ -285,7 +283,7 @@ public class BoundBuffer {
 
     public static String GetFirstLine(String path) {
         try {
-            String sposion = new String();
+            String sposion="";
             File myObj = new File(path);
             Scanner Reader = new Scanner(myObj);
             sposion = Reader.nextLine();
@@ -354,7 +352,7 @@ public class BoundBuffer {
         return -1;
     }
 
-    public int WriteData(String path, String Atributes[], String Values[], int NofValues) {
+    public int WriteData(String path, String []Atributes, String []Values, int NofValues) {
         for (int i = 0; i < NofValues; i++) {
             try (BufferedWriter bw
                          = new BufferedWriter(new FileWriter(path, true))) {
@@ -999,13 +997,17 @@ public class BoundBuffer {
     }
 
 
-
+    /*
+    *
+    *
+    *
+    * */
 
     public Pair<BoundBuffer , Integer>login(String account, String password){
         int whichOne = 0;
         String iscorrect = checkAccount(account,"islogin");
 
-        if(iscorrect.equals("%error%")){
+        if(iscorrect.equals("%error%") || iscorrect == null){
             System.out.println("here");
             return new Pair ( null,-1 );
         }else if(iscorrect.equals("1")){
@@ -1020,8 +1022,6 @@ public class BoundBuffer {
         else
             whichOne = 2;
 
-
-        String path=null;
 
         String[] validationInfo=null;
 

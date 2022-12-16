@@ -1,7 +1,0 @@
-id: 4
-name: yousf
-email: jou12@gmail.com
-password: j123
-noTicketPaidbyCustomers: 0
-balance: 1200.0
-pathForallQrsFloderCT: D:\Java programming\OS2-project\Bound-Buffer-Problem\DataBase\QrCodesForCT\4 [jou12@gmail.com]

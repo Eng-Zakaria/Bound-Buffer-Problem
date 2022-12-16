@@ -1,30 +1,60 @@
-account: ali1@gmail.com
-password: 1234
+account: m0@gmail.com
+password: c12340
 deleted: 0
 islogin: 0
-pathInfo: D:\Java programming\OS2-project\Bound-Buffer-Problem\DataBase\Customers\0 [ali1@gmail.com] .txt
+pathInfo: D:\Java programming\OS2-project\Bound-Buffer-Problem\DataBase\Customers\0 [m0@gmail.com] .txt
 
-account: ali12@gmail.com
-password: 12345
+account: m1@gmail.com
+password: c12341
 deleted: 0
 islogin: 0
-pathInfo: D:\Java programming\OS2-project\Bound-Buffer-Problem\DataBase\Customers\1 [ali12@gmail.com] .txt
+pathInfo: D:\Java programming\OS2-project\Bound-Buffer-Problem\DataBase\Customers\1 [m1@gmail.com] .txt
 
-account: ali13@gmail.com
-password: 12346
+account: m2@gmail.com
+password: c12342
 deleted: 0
 islogin: 0
-pathInfo: D:\Java programming\OS2-project\Bound-Buffer-Problem\DataBase\Customers\2 [ali13@gmail.com] .txt
+pathInfo: D:\Java programming\OS2-project\Bound-Buffer-Problem\DataBase\Customers\2 [m2@gmail.com] .txt
 
-account: nour@gmail.com
-password: 12345
+account: m3@gmail.com
+password: c12343
 deleted: 0
 islogin: 0
-pathInfo: D:\Java programming\OS2-project\Bound-Buffer-Problem\DataBase\Customers\3 [nour@gmail.com] .txt
+pathInfo: D:\Java programming\OS2-project\Bound-Buffer-Problem\DataBase\Customers\3 [m3@gmail.com] .txt
 
-account: jou12@gmail.com
-password: j123
+account: m4@gmail.com
+password: c12344
 deleted: 0
 islogin: 0
-pathInfo: D:\Java programming\OS2-project\Bound-Buffer-Problem\DataBase\Customers\4 [jou12@gmail.com] .txt
+pathInfo: D:\Java programming\OS2-project\Bound-Buffer-Problem\DataBase\Customers\4 [m4@gmail.com] .txt
+
+account: m5@gmail.com
+password: c12345
+deleted: 0
+islogin: 0
+pathInfo: D:\Java programming\OS2-project\Bound-Buffer-Problem\DataBase\Customers\5 [m5@gmail.com] .txt
+
+account: m6@gmail.com
+password: c12346
+deleted: 0
+islogin: 0
+pathInfo: D:\Java programming\OS2-project\Bound-Buffer-Problem\DataBase\Customers\6 [m6@gmail.com] .txt
+
+account: m7@gmail.com
+password: c12347
+deleted: 0
+islogin: 0
+pathInfo: D:\Java programming\OS2-project\Bound-Buffer-Problem\DataBase\Customers\7 [m7@gmail.com] .txt
+
+account: m8@gmail.com
+password: c12348
+deleted: 0
+islogin: 0
+pathInfo: D:\Java programming\OS2-project\Bound-Buffer-Problem\DataBase\Customers\8 [m8@gmail.com] .txt
+
+account: m9@gmail.com
+password: c12349
+deleted: 0
+islogin: 0
+pathInfo: D:\Java programming\OS2-project\Bound-Buffer-Problem\DataBase\Customers\9 [m9@gmail.com] .txt
 

@@ -152,10 +152,11 @@ public class Customer extends BoundBuffer implements Runnable{
         }
 
         int [][] checkedT = checkTicketsInCart();
-
-         while (checkedT != null)
+        int loop = 5;
+         while (checkedT != null && loop != 0) {
+             loop --;
              checkedT = checkTicketsInCart();
-
+         }
 
 
         for (int i=0;i<cart.getNoTicketsInCart();i++) {

@@ -6,7 +6,7 @@ id: 0
 name: tiket 0 user0
 type: gold
 quantity: 0
-Description: ~Event description
+Description: ~~~Event description
 StartTime: 17-12-2022
 EndTime: 20-12-2022
 price: 10.0
