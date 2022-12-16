@@ -998,21 +998,41 @@ public class BoundBuffer {
 
 
     /*
+    * to revice output from this function you have to make
+    * Pair p = boundbuffer.login(...boxusername..,.boxpassword.....);
+    *     p.getKey() that's for BoundBuffer returned from login fun
+    *    p.getValue() that's for type of error in function
+    *   types of error
+    *     لو القيمة بتاعت ()p.getValue بتساوي
+    *    -1 ->incorrect userName or email OR password
+    *    -2 ->there is a something happened in read your data MAY be its fault data
+    *    -3 ->customer is aleardy login from another device (sorry dude, you cannt login from multiple devices)
+    *    -4 ->customer is aleardy login, but we did NOT check for password yet so we will infrom customer that there is something happend while trying to login
     *
+    *
+    * !!   only condation to login in correclty   !!
+    *    p.getKey()   is Refrence for boundbuffer
+    *    Customer customer = (Customer)p.getKey();
+    *    or
+    *   Vendor vendor = (Vendor) p.getKey();
+    *
+    *  , p.getValue() is 1
+    *
+    *
+     *
     *
     *
     * */
+
 
     public Pair<BoundBuffer , Integer>login(String account, String password){
         int whichOne = 0;
         String iscorrect = checkAccount(account,"islogin");
 
         if(iscorrect.equals("%error%") || iscorrect == null){
-            System.out.println("here");
             return new Pair ( null,-1 );
         }else if(iscorrect.equals("1")){
-            return new Pair ( null,-2 );
-
+            return new Pair ( null,-4 );
         }
 
 
@@ -1030,7 +1050,7 @@ public class BoundBuffer {
         else
           validationInfo = blockSearchInSearchFile(rootDataBase+"\\SearchData\\vendorsLoginData.txt","account",account);
 
-        if(validationInfo == null) return new Pair ( null,-3 );
+        if(validationInfo == null) return new Pair ( null,-2 );
 
 
 
@@ -1041,7 +1061,7 @@ public class BoundBuffer {
 
 
 
-        if( !(password.equals(validationInfo[1]))   && !(account.equals(validationInfo[0]))  )
+        if( !(password.equals(validationInfo[1]))  || !(account.equals(validationInfo[0]))  )
             return new Pair ( null,-1 );
 
         //account:          0
@@ -1052,8 +1072,8 @@ public class BoundBuffer {
 
         if(validationInfo[2].equals("1"))
             return new Pair ( null,-2 );
-        else if (validationInfo[3].equals("1"))
-            return new Pair ( null,-4);
+        if (validationInfo[3].equals("1"))
+            return new Pair ( null,-3);
 
 
 
@@ -1068,7 +1088,6 @@ public class BoundBuffer {
            // editValueInSearchFile(rootDataBase+"\\SearchData\\vendorsLoginData.txt","account",account,"islogin","1");
 
         }
-        System.out.println("read cv : "+read);
 
         return new Pair(read, 1);
     }
