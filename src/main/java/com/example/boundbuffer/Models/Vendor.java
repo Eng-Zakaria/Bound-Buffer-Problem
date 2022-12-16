@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-public class Vendor extends BoundBuffer{
+public class Vendor extends BoundBuffer implements Runnable{
     private int id;
     private String nameOfStore;
     private String imagepath;
@@ -108,18 +108,37 @@ public class Vendor extends BoundBuffer{
 
         return 1;
     }
+
+    @Override
+    public void run() {
+
+       for (int i=0; i< 5;i++)
+        addTicket("tiket "+i+" "+this.username ,"gold",120,10.0,".png","Event description","17-12-2022","20-12-2022");
+
+
+    }
+
+
     public int deleteTicket(Ticket I){
         System.out.println("0000000000----------------");
         System.out.println("here deleted");
         System.out.println("---------------------------");
+        System.out.println(I.getOwner() + " "+ Vendor.this);
         if(noTickets ==0 || I==null || ticketsForSellByEveryVendor == null || I.getOwner() != Vendor.this)return 0;
         System.out.println("here deleted");
+
         System.out.println("----------------");
         System.out.println("-------------------------");
-        this.TotalnoTicketsIcludeQuntity -= I.getQuantity();
+
+        makeFileBeDeleted(I.getPathInFolderOwner(),I.getName());
+        makeFileBeDeleted(I.getPathInViewCT(),I.getName());
+        setTotalnoTicketsIcludeQuntity(this.TotalnoTicketsIcludeQuntity - I.getQuantity(),0);
+        setNoTickets(this.noTickets - 1,0);
         ticketsForSellByEveryVendor.remove(I);
         tickets.remove(I);
+
         this.noTickets--;
+
         return 1;
     }
 
@@ -157,8 +176,19 @@ public class Vendor extends BoundBuffer{
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public int setPassword(String newPassword) {
+        if(newPassword != this.password) {
+            System.out.println("Wrong password");
+            System.out.println("you have to enter your correct old password");
+            return 0;
+        }
+
+        this.password = newPassword;
+
+        editValueLine(this.pathInfofile,"password",newPassword,4);
+        return 1;
+
+
     }
 
     public String getPathInfofile() {
@@ -171,12 +201,17 @@ public class Vendor extends BoundBuffer{
 
 
     public void setTicketsForSellByEveryVendor(ArrayList<Ticket> ticketsForSellByEveryVendor) {
+        if(ticketsForSellByEveryVendor.size() < 1 || ticketsForSellByEveryVendor == null){
+            this.ticketsForSellByEveryVendor = new ArrayList<Ticket>(10);
+            return;
+        }
 
         this.ticketsForSellByEveryVendor = ticketsForSellByEveryVendor;
 
         this.noTickets = ticketsForSellByEveryVendor.size();
         int index = -1;
         System.out.println(noTickets);
+
         for(int i=0;i<noTickets;i++){
             for (int j=0;j<tickets.size();j++){
                 if(ticketsForSellByEveryVendor.get(i).getId() == tickets.get(j).getId() && ticketsForSellByEveryVendor.get(i).hashCode() != tickets.get(j).hashCode()){
@@ -209,6 +244,8 @@ public class Vendor extends BoundBuffer{
 
     public void setNameOfStore(String nameOfStore) {
         this.nameOfStore = nameOfStore;
+        editValueLine(this.pathInfofile,"nameOfStore",nameOfStore,3);
+
     }
 
     public String getImagepath() {
@@ -217,6 +254,7 @@ public class Vendor extends BoundBuffer{
 
     public void setImagepath(String imagepath) {
         this.imagepath = imagepath;
+        editValueLine(this.pathInfofile,"imagePath",imagepath,0);
     }
 
     public String getDes() {
@@ -225,22 +263,27 @@ public class Vendor extends BoundBuffer{
 
     public void setDes(String des) {
         this.des = des;
+        editValueLine(this.pathInfofile,"Description",des,5);
     }
 
     public int getNoTickets() {
         return noTickets;
     }
 
-    public void setNoTickets(int noTickets) {
+    public void setNoTickets(int noTickets , int load) {
         this.noTickets = noTickets;
+        if(load == 0)
+        editValueLine(this.pathInfofile,"TicketsForSell",String.valueOf( super.NumberOfFilesinFolder(this.pathFolderTicketCreatedByVendor,".txt")),6);
     }
 
     public int getTotalnoTicketsIcludeQuntity() {
         return TotalnoTicketsIcludeQuntity;
     }
 
-    public void setTotalnoTicketsIcludeQuntity(int totalnoTicketsIcludeQuntity) {
+    public void setTotalnoTicketsIcludeQuntity(int totalnoTicketsIcludeQuntity , int  load) {
         TotalnoTicketsIcludeQuntity = totalnoTicketsIcludeQuntity;
+        if(load == 0)
+            editValueLine(this.pathInfofile,"TicketsIncludeQuantity",String.valueOf(totalnoTicketsIcludeQuntity),7);
     }
 
     public int checkfortrue(int t){
@@ -322,7 +365,7 @@ public class Vendor extends BoundBuffer{
         System.out.println("------here-----------");
         System.out.println("-------here-----------");
         t.setQuantity(t.getQuantity() - quantity);
-        this.TotalnoTicketsIcludeQuntity -= quantity;
+        setTotalnoTicketsIcludeQuntity(this.TotalnoTicketsIcludeQuntity - quantity,0);
         System.out.println(      "vendors : " + this.getTicketsForSellByEveryVendor().get(  this.getTicketsForSellByEveryVendor().indexOf(t)).getQuantity());
         //this.getTicketsForSellByEveryVendor().get(  this.getTicketsForSellByEveryVendor().indexOf(t) ).setQuantity(t.getQuantity() - quantity);
         System.out.println(       "tickets : " +tickets.get( tickets.indexOf(t) ).getQuantity());
@@ -330,6 +373,13 @@ public class Vendor extends BoundBuffer{
 
 
         return 1;
+    }
+    public int logout(){
+        vendors.remove(Vendor.this);
+        if(vendors.indexOf(Vendor.this) > 0 ) return 0;
+
+        return logout(this,this.username,this.password);
+
     }
 
 

@@ -11,6 +11,8 @@ public class Cart {
     private int quentatiyForEachTickets[];
     private Ticket ticketsCart[];
 
+    private double total = 0.0;
+
     private int totalNumberInCart=0;
     /* customers can add 10 items at MAX in cart
             important to know if function of addItem return 1 means this function had successful to add this item
@@ -61,6 +63,7 @@ public class Cart {
         if(SearchIndex >= 0) {
             nq = getQuentatiyForItemInCart(SearchIndex);
         }
+
         if(I.getQuantity() == 0 || I.getAvailable() == false || quentatiy+nq > I.getQuantity()){
             System.out.println("those tickets are not available for now: "+I.getName());
             return 0;
@@ -82,11 +85,13 @@ public class Cart {
             if(SearchIndex >=0){
                 quentatiyForEachTickets[SearchIndex] += quentatiy;
                 totalNumberInCart += quentatiy;
+                total += quentatiy * I.getPrice();
                 return 1;
             }
             ticketsCart[noTicketsInCart] = I;
             quentatiyForEachTickets[noTicketsInCart] = quentatiy;
             totalNumberInCart += quentatiy;
+            total += quentatiy * I.getPrice();
             noTicketsInCart++;
         }
         else{
@@ -115,6 +120,8 @@ public class Cart {
         ticketsCart = null;
         quentatiyForEachTickets = null;
         totalNumberInCart = 0;
+        noTicketsInCart = 0;
+        total = 0;
         ticketsCart = new Ticket[10];
         quentatiyForEachTickets = new int[10];
         return 1;
@@ -195,6 +202,10 @@ public class Cart {
         return strDate;
     }
 
-
-
+    public double getTotal() {
+        return total;
+    }
+    public void setTotal(double total) {
+        this.total = total;
+    }
 }

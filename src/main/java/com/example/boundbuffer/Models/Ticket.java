@@ -6,6 +6,7 @@ import com.google.zxing.WriterException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 public class Ticket extends BoundBuffer{
     private int id;
@@ -62,16 +63,24 @@ public class Ticket extends BoundBuffer{
         return startTime;
     }
 
-    public void setStartTime(String startTime) {
+    public int setStartTime(String startTime) {
+        if(!isValidFormat("dd-mm-yy",startTime, Locale.ENGLISH)) return 0;
         this.startTime = startTime;
+        editValueLine(this.pathInFolderOwner,"StartTime",startTime,9);
+        editValueLine(this.pathInViewCT,"StartTime",startTime,9);
+        return 1;
     }
 
     public String getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(String endTime) {
+    public int setEndTime(String endTime) {
+        if(!isValidFormat("dd-mm-yy",endTime, Locale.ENGLISH)) return 0;
         this.endTime = endTime;
+        editValueLine(this.pathInFolderOwner,"EndTime",endTime,10);
+        editValueLine(this.pathInViewCT,"EndTime",endTime,10);
+        return 1;
     }
 
     public String getQrcode() {
@@ -82,8 +91,11 @@ public class Ticket extends BoundBuffer{
         return issold;
     }
 
-    public void setIssold(int issold) {
+    public int setIssold(int issold) {
+        if(this.issold == issold) return 0;
         this.issold = issold;
+        return 1;
+
     }
 
     public void generateQrcode(String path, String data)
@@ -107,9 +119,8 @@ public class Ticket extends BoundBuffer{
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
-
-        //editValueLine(this.pathInFolderOwner,"quantity",,)
-
+        editValueLine(this.pathInFolderOwner,"quantity",String.valueOf(quantity),7);
+        editValueLine(this.pathInViewCT,"quantity",String.valueOf(quantity),7);
 
     }
 
@@ -132,7 +143,7 @@ public class Ticket extends BoundBuffer{
         this.price = price;
         this.description = description;
         this.imagePath = imagePath;
-
+        this.available = true;
         this.endTime = EndTime;
         this.startTime = startTime;
 
@@ -147,7 +158,7 @@ public class Ticket extends BoundBuffer{
         this.id = BoundBuffer.TotalNoTickets;
         String[] nameofattribues = {"PathFolderOwner","PathOwner","PathInViewCT","imagePath","id", "name", "type","quantity","Description","StartTime","EndTime","price"}; //
         this.pathInFolderOwner = Creetefiletxt(this.id+" ["+this.name+"] "+"["+this.startTime+"] "+"to "+" ["+this.endTime+"]",pathInFolderOwner+"\\");
-        this.pathInViewCT = Creetefiletxt(this.id+" ["+this.name+"] "+"["+this.startTime+"] "+"to "+" ["+this.endTime+"]","D:\\Java programming\\OS2-project\\Bound-Buffer-Problem\\DataBase\\alltickets\\");
+        this.pathInViewCT = Creetefiletxt(this.id+" ["+this.name+"] "+"["+this.startTime+"] "+"to "+" ["+this.endTime+"]",rootDataBase+"\\alltickets\\");
         //"PathFolderOwner","PathOwner","PathInViewCT","imagePath","id", "name", "type","quantity","description","StartTime","EndTime","price"
         String[] values = {pathInFolderOwner,this.pathOwner,pathInViewCT,this.imagePath,String.valueOf(this.id), this.name, type,String.valueOf(this.quantity),description,this.startTime,this.endTime,String.valueOf(price)};
         WriteData(this.pathInViewCT,nameofattribues,values,12);
@@ -172,6 +183,9 @@ public class Ticket extends BoundBuffer{
 
     public void setName(String name) {
         this.name = name;
+        editValueLine(this.pathInFolderOwner,"name",name,5);
+        editValueLine(this.pathInViewCT,"name",name,5);
+
     }
 
     public String getType() {
@@ -180,6 +194,9 @@ public class Ticket extends BoundBuffer{
 
     public void setType(String type) {
         this.type = type;
+        editValueLine(this.pathInFolderOwner,"type",type,6);
+        editValueLine(this.pathInViewCT,"type",type,6);
+
     }
 
     public double getPrice() {
@@ -188,6 +205,9 @@ public class Ticket extends BoundBuffer{
 
     public void setPrice(double price) {
         this.price = price;
+        editValueLine(this.pathInFolderOwner,"price",Double.toString(price),11);
+        editValueLine(this.pathInViewCT,"price",Double.toString(price),11);
+
     }
 
     public String getImagePath() {
@@ -196,6 +216,9 @@ public class Ticket extends BoundBuffer{
 
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
+        editValueLine(this.pathInFolderOwner,"imagePath",imagePath,3);
+        editValueLine(this.pathInViewCT,"imagePath",imagePath,3);
+
     }
 
     public String getDescription() {
@@ -204,6 +227,9 @@ public class Ticket extends BoundBuffer{
 
     public void setDescription(String description) {
         this.description = description;
+        editValueLine(this.pathInFolderOwner,"Description",description,8);
+        editValueLine(this.pathInViewCT,"Description",description,8);
+
     }
 
     public Vendor getOwner() {
@@ -218,8 +244,13 @@ public class Ticket extends BoundBuffer{
         return available;
     }
 
-    public void setAvailable(Boolean available) {
-        this.available = available;
+    public int MakeNoLongerAvailablity() {
+        if(available == false) return 0;
+
+            editValueLine(this.pathInFolderOwner, "Description", "~" + this.description, 8);
+            editValueLine(this.pathInViewCT, "Description", "~" + this.description, 8);
+        this.available = false;
+        return 1;
     }
     /*
     * compareTwoDates
@@ -246,7 +277,7 @@ public class Ticket extends BoundBuffer{
     public Boolean sold(){
         if(available ==true){
             setIssold(1);
-            setAvailable(false);
+            MakeNoLongerAvailablity();
             return true;
         }else {
 
@@ -261,7 +292,7 @@ public class Ticket extends BoundBuffer{
     public int buy(Customer c,int quantity){
 
         System.out.println("---------------------receipt for ticket: \\\\\" "+this.name+" \\\\\"---------------------------");
-        if(this.quantity == 0 || this.available == false || quantity > this.quantity){
+        if(this.quantity == 0 || this.available == false || quantity > this.quantity || this.issold == 1){
             System.out.println("those tickets are not available "+this.name);
             return 0;
         }
@@ -288,7 +319,6 @@ public class Ticket extends BoundBuffer{
         }
 
         this.owner.soldTicket(Ticket.this,quantity);
-
 
         System.out.println("The date of purchase: "+now());
 
