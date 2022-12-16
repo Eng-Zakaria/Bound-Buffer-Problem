@@ -121,7 +121,7 @@ public class Cart {
         quentatiyForEachTickets = null;
         totalNumberInCart = 0;
         noTicketsInCart = 0;
-        total = 0;
+        total = 0.0;
         ticketsCart = new Ticket[10];
         quentatiyForEachTickets = new int[10];
         return 1;

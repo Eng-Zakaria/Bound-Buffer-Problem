@@ -113,7 +113,7 @@ public class Vendor extends BoundBuffer implements Runnable{
     public void run() {
 
        for (int i=0; i< 5;i++)
-        addTicket("tiket "+i+" "+this.username ,"gold",120,10.0,".png","Event description","17-12-2022","20-12-2022");
+        addTicket("tiket "+i+" "+this.username,"gold",120,10.0,".png","Event description","17-12-2022","20-12-2022");
 
 
     }
