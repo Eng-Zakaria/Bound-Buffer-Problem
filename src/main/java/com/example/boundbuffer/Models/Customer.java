@@ -152,17 +152,19 @@ public class Customer extends BoundBuffer implements Runnable{
         }
 
         int [][] checkedT = checkTicketsInCart();
+       /*
         int loop = 5;
          while (checkedT != null && loop != 0) {
              loop --;
              checkedT = checkTicketsInCart();
          }
-
+       */
 
         for (int i=0;i<cart.getNoTicketsInCart();i++) {
             int y =T[i].buy(Customer.this, Q[i]);
             if(y != 1) return y;
         }
+
          int issetnew = this.cart.setNewCart();
           return issetnew;
     }

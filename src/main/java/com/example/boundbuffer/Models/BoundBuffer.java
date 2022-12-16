@@ -45,18 +45,18 @@ public class BoundBuffer {
         System.out.println(vendors.toString());
         System.out.println(customers.toString());
 
-/*
+
         for (int i=0;i< 10;i++) {
-            customers.add(new Customer("m" + i, "m" + i + "@gmail.com", "c1234" + i, 10000.0, 1));
-            vendors.add(new Vendor("v" + i, "user" + i, "v1234" + i, ".jpg", "dfdadfsad", 1));
+            customers.add(new Customer("mm" + i, "m" + i + "@gmail.com", "c1234" + i, 10000.0, 1));
+            vendors.add(new Vendor("vv" + i, "user" + i, "v1234" + i, ".jpg", "dfdadfsad", 1));
         }
-*/
+
 
 
 
       for (int i=0;i<20;i++) {
           if (i < 10)
-              b.login("m"+i+"@gmail.com", "c1234"+i);
+              b.login("m"+i+"@gmail.com", "c1234"+i)    ;
          else
              b.login("user"+(i - 10),"v1234"+ (i -10));
       }
@@ -207,6 +207,7 @@ public class BoundBuffer {
         Format f = new SimpleDateFormat("dd-MM-yyyy");
         String strDate = f.format(new Date());
         return strDate;
+        /// before
     }
 
     public int compareTwoDates(Date d1, Date d2) {
