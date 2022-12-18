@@ -17,16 +17,14 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-import java.awt.*;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class MainController extends Application {
 
 
 
      int noCustomers;
-     int noVendors;
+     double noVendors;
 
     @Override
     public void start(Stage primarystage) throws IOException {
@@ -34,8 +32,8 @@ public class MainController extends Application {
         Stage stage = new Stage();
         Scene scene = new Scene(root, 800, 600, Color.BEIGE);
 
-        Spinner noCustomersSpinner = new Spinner(1,4,1);
-        Spinner noVendorsSpinner = new Spinner(1,5,1);
+        Spinner<Integer> noCustomersSpinner = new Spinner<>(1,4,1);
+        Spinner<Double> noVendorsSpinner = new Spinner<>(1,5,1);
 
         Label noCustomersLabel = new Label("Number of Customers: ");
         Label noVendorsLabel = new Label("Number of Vendors: ");
@@ -74,7 +72,7 @@ public class MainController extends Application {
                 public void handle(ActionEvent event) {
                     noCustomers = (int) noCustomersSpinner.getValue();
                     System.out.println(noCustomers);
-                    noVendors = (int) noVendorsSpinner.getValue();
+                    noVendors = (double) noVendorsSpinner.getValue();
                     System.out.println(noVendors);
 
                 }
