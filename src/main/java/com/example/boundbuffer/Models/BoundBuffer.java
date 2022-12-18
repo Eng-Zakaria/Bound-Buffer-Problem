@@ -24,15 +24,19 @@ public class BoundBuffer {
     public static int NoVendors = LastPosion(rootDataBase+"\\preload\\idVEN.txt");
     public static ArrayList<Customer> customers;
     public static ArrayList<Vendor> vendors;
-    public static int newStateForticketsread = 1;
+    public static int newStateForticketsread = 0;
     public static int loadAllTicks = 1;
 
+   public static ThreadGroup customersCheckoutTheards;
+   public static ThreadGroup  vendorsAddingTicketsTheards;
 
 
     public BoundBuffer() {
         if (customers == null) customers = new ArrayList<>(1000);
         if (vendors == null) vendors = new ArrayList<>(2000);
         if (tickets == null) tickets = new ArrayList<>(10000);
+        if(customersCheckoutTheards == null) customersCheckoutTheards = new ThreadGroup("checkouts");
+        if(vendorsAddingTicketsTheards == null) vendorsAddingTicketsTheards = new ThreadGroup("vendorsAddinTickets");
 
     }
 
@@ -46,65 +50,86 @@ public class BoundBuffer {
         System.out.println(customers.toString());
 
 
-        for (int i=0;i< 10;i++) {
+        /*
+        for (int i=0;i< 500;i++) {
             customers.add(new Customer("mm" + i, "m" + i + "@gmail.com", "c1234" + i, 10000.0, 1));
             vendors.add(new Vendor("vv" + i, "user" + i, "v1234" + i, ".jpg", "dfdadfsad", 1));
         }
+*/
 
 
 
 
-      for (int i=0;i<20;i++) {
-          if (i < 10)
-              b.login("m"+i+"@gmail.com", "c1234"+i)    ;
-         else
-             b.login("user"+(i - 10),"v1234"+ (i -10));
+
+      for (int i=0;i<500;i++) {
+
+              b.login("m"+i+"@gmail.com", "c1234"+i);
+             b.login("user"+i,"v1234"+i);
+
       }
-
 
 
         System.out.println("---------------main--------");
 
 
-        loadAllTickets(rootDataBase+"\\ticketsVendors");
-        setTicketsInAll();
 
-        System.out.println(tickets.toString());
-        System.out.println(customers.toString());
-        System.out.println(vendors.toString());
-        System.out.println(vendors.get(0).getTicketsForSellByEveryVendor().toString());
-        System.out.println(vendors.get(5).getTicketsForSellByEveryVendor().toString());
+
+        System.out.println("         ----------------------------------------");
+        System.out.println("----------------MultiThreading----------------------------");
+        System.out.println("     ----------------applied for vendors-----------------------------------");
+
+
+
+/*
+        for (int i=0;i<vendors.size();i++){
+            Thread t = vendors.get(i).addingTheard();
+            t.setName("vendor thread of "+i);
+        }
+
+*/
+
+        System.out.println("         ----------------------------------------");
+        System.out.println("----------------------------------------------");
+        System.out.println("     -------------End of applied for Vendors--------------------------------------");
+
+
+        for (int i=0;i<tickets.size();i++){
+            System.out.println(tickets.get(i).getIssold());
+            System.out.println(tickets.get(i).getAvailable());
+            if(tickets.get(i).getAvailable() == false)
+                System.out.println(tickets.get(i).getName());
+            System.out.println(tickets.get(i).getIsDeadticket());
+        }
+
+
+        System.out.println("         ----------------------------------------");
+        System.out.println("----------------MultiThreading----------------------------");
+        System.out.println("     ----------------applied for Customers-----------------------------------");
+
+
+
 
         for (int i=0;i<customers.size();i++) {
             try {
-                customers.get(i).addToCart(tickets.get(0), tickets.get(0).getQuantity());
+                customers.get(i).addToCart(tickets.get(20), tickets.get(20).getQuantity());
             }catch (Exception e){
+
                 System.out.println("there is no tickets in our system for now ,Check that later");
             }
         }
 
-        for (int i=0;i < customers.size();i++){
 
-            System.out.println("-----------------cart of customer"+ customers.get(i).getName()+"---------------");
-            for (int ii =0; ii < customers.get(i).getCart().getNoTicketsInCart();ii++){
-                System.out.println("name of ticket in cart:"+customers.get(i).getCart().getTicketsCart()[ii].getName() + " quantity: "+customers.get(i).getCart().getTicketsCart()[ii].getQuantity() );
 
-            }
-            System.out.println("--------------------------End Cart of ->"+customers.get(i).getName()+"-------------");
-            System.out.println("---------------------------\n-------------------------\n");
-
+        for (int i=0;i<customers.size();i++){
+            Thread t = customers.get(i).checkoutThread();
+            t.setName("customer thread of "+i);
         }
 
         System.out.println("         ----------------------------------------");
-        System.out.println("----------------MultiThreading----------------------------");
-        System.out.println("     ---------------------------------------------------");
+        System.out.println("----------------------------------------------");
+        System.out.println("     -------------End of applied for Customers--------------------------------------");
 
 
-        for (int i=0;i<customers.size();i++)
-            customers.get(i).run();
-
-        for (int i=0;i<vendors.size();i++)
-            vendors.get(i).run();
 
         System.out.println("         ----------------------------------------");
         System.out.println("----------------MultiThreading----------------------------");
@@ -114,9 +139,7 @@ public class BoundBuffer {
             System.out.println("customer name: "+customers.get(i).getName()+" tickets that's paid by: "+customers.get(i).getNoTicketPaidbyCustomers());
         }
 
-
-
-      for (int i=0;i<customers.size();i++ )
+        for (int i=0;i<customers.size();i++ )
         System.out.println(customers.get(0).logout());
 
         for (int i=0;i<vendors.size();i++ )
@@ -126,7 +149,8 @@ public class BoundBuffer {
 
     public static ArrayList<Ticket> loadingDataTickets(String pathDirectory) {
 
-        int NoTicket = NumberOfFilesinFolder(pathDirectory,".txt");
+        //int NoTicket = NumberOfFilesinFolder(pathDirectory,".txt");
+
 
         ArrayList<String[]> DateCt = ReadDatainFloder(pathDirectory);
         ArrayList<Ticket> ticketss = new ArrayList<>();
@@ -147,8 +171,9 @@ public class BoundBuffer {
             for (int ii = 0; ii < DateCt.get(i).length; ii++) {
 
                 String line = DateCt.get(i)[ii];
-                if (line.contains("~")) {
+                if (line.contains("~") ) {
                     issoldticket = 1;
+
                 }
                 String av[] = line.split(": ", 2);
 
@@ -179,15 +204,22 @@ public class BoundBuffer {
             } catch (ParseException e) {
                 throw new RuntimeException(e);
             }
+
             if (issoldticket == 1 || t.getQuantity() == 0) {
                 t.setIssold(1);
-                t.MakeNoLongerAvailablity();
+                System.out.println(t.getName());
+                System.out.println(t.getQuantity());
+                System.out.println("ticket is sold read");
+                t.MakeNoLongerAvailablity(1);
             }else {
                t.setIssold(0);
             }
+
             if (Deadticket == 1) {
+                System.out.println(t.getName());
+                System.out.println("here in dead ticket");
                 t.setDeadticket(1);
-                t.MakeNoLongerAvailablity();
+                t.MakeNoLongerAvailablity(0);
             }else {
                 t.setDeadticket(0);
             }
@@ -596,12 +628,20 @@ public class BoundBuffer {
         String[] foldersVendors = DirectoryFolders(pathDerectory, 1);
         tickets = new ArrayList<>();
         for (int i = 0; i < foldersVendors.length; i++) {
-            ArrayList<Ticket> t = loadingDataTickets(foldersVendors[i]);
-            System.out.println("t size " + t.size());
-            for (int iii = 0; iii < t.size(); iii++) {
-                tickets.add(t.get(iii));
-            }
 
+            int I = i;
+            Thread readThread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+
+                    ArrayList<Ticket> t = loadingDataTickets(foldersVendors[I]);
+                    if(t.size() > 0)
+                        tickets.addAll(t);
+
+                }
+            });
+
+        readThread.start();
 
         }
         loadAllTicks = 0;
@@ -620,7 +660,7 @@ public class BoundBuffer {
 
             for (int x = 0; x < vendors.get(i).getTicketsForSellByEveryVendor().size(); x++) {
                 for (int j = 0; j < tickets.size(); j++) {
-                    if (vendors.get(i).getTicketsForSellByEveryVendor().get(x).getId() == tickets.get(j).getId() &&vendors.get(i).getTicketsForSellByEveryVendor().get(x).hashCode() !=  tickets.get(j).hashCode()) {
+                    if (vendors.get(i).getTicketsForSellByEveryVendor().get(x).getId() == tickets.get(j).getId() &&vendors.get(i).getTicketsForSellByEveryVendor().get(x).hashCode() !=  tickets.get(j).hashCode() && tickets.get(j) != vendors.get(i).getTicketsForSellByEveryVendor().get(x)) {
 
                         if(index < 0)
                             index = j;
@@ -745,6 +785,7 @@ public class BoundBuffer {
         }
 
         return null;
+        //before 
 
         }
 
@@ -752,11 +793,11 @@ public class BoundBuffer {
     public static String ReadValueLine(String path,String nameOfAttributeToRead ,int indexLinetoRed) {
         String line = null;
 
-        try (BufferedReader br = new BufferedReader(new FileReader("file.txt"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(path))) {
             for (int i = 0; i < indexLinetoRed; i++) br.readLine();
             line = br.readLine();
             String[] AV = line.split(": ",2);
-            if(AV[0] == nameOfAttributeToRead){
+            if(AV[0].equals(nameOfAttributeToRead)){
 
                  return AV[1];
             }else {
@@ -1028,9 +1069,10 @@ public class BoundBuffer {
 
     public Pair<BoundBuffer , Integer>login(String account, String password){
         int whichOne = 0;
+
         String iscorrect = checkAccount(account,"islogin");
 
-        if(iscorrect.equals("%error%") || iscorrect == null){
+        if( iscorrect == null || iscorrect.equals("%error%") ){
             return new Pair ( null,-1 );
         }else if(iscorrect.equals("1")){
             return new Pair ( null,-4 );
@@ -1105,7 +1147,7 @@ public class BoundBuffer {
         if (cv == 1) {
 
             if(!newData[1].contains("@")) {
-                System.out.println("you must enter an email");
+                System.out.println("you must enter an email continue @ symbol");
                 return -1;
             }
             if(newData.length != 4){
@@ -1114,10 +1156,10 @@ public class BoundBuffer {
             }
 
             String[] emails = dataWrittenInFilesName(rootDataBase+"\\Customers",1);
-
-            System.out.println(Arrays.toString(emails));
-            if (stringContainInArrayString(emails, newData[1]) >= 0) {
-                return 0;
+            if(emails != null) {
+                if (stringContainInArrayString(emails, newData[1]) >= 0) {
+                    return 0;
+                }
             }
             // String name,String email,String password,double balance,int newData 5
             Customer c = new Customer(newData[0], newData[1], newData[2], Double.parseDouble(newData[3]), 1);
@@ -1137,9 +1179,11 @@ public class BoundBuffer {
 
 
             String[] userNames = dataWrittenInFilesName(rootDataBase+"\\vendors", 1);
-            System.out.println(Arrays.toString(userNames));
-            if (stringContainInArrayString(userNames, newData[1]) >= 0) {
-                return 0;
+            if(userNames != null) {
+                System.out.println(Arrays.toString(userNames));
+                if (stringContainInArrayString(userNames, newData[1]) >= 0) {
+                    return 0;
+                }
             }
 
             //String nameOfStore,String username,String password,String imagepath,String des,int newData
@@ -1160,7 +1204,7 @@ public class BoundBuffer {
         }
         else if (b instanceof  Vendor) {
             vendors.remove(b);
-        path =rootDataBase+"\\SearchData\\vendorsLoginData.txt";
+            path =rootDataBase+"\\SearchData\\vendorsLoginData.txt";
         }
         int check = editValueInSearchFile(path,"account",account,"islogin","0");
 
@@ -1210,8 +1254,8 @@ public class BoundBuffer {
         }
 
         public static int makeFileBeDeleted(String path, String name){
-        System.out.println(renameFile(path,"! "+name));
 
+        System.out.println(renameFile(path,"! "+name));
 
         return 1;
         }

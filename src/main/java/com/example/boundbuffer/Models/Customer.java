@@ -1,7 +1,7 @@
 package com.example.boundbuffer.Models;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 
 public class Customer extends BoundBuffer implements Runnable{
     private int id;
@@ -29,6 +29,7 @@ public class Customer extends BoundBuffer implements Runnable{
             check = 1;
 
         if(newData !=0){
+
             this.id = BoundBuffer.NoCustomers;
             BoundBuffer.NoCustomers++;
             setId(this.id,rootDataBase+"\\preload\\idCT.txt");
@@ -103,7 +104,7 @@ public class Customer extends BoundBuffer implements Runnable{
             }
 
 
-            if(this.cart.getTicketsCart()[i].getDeadticket() == 1) {
+            if(this.cart.getTicketsCart()[i].getIsDeadticket() == 1) {
                 System.out.println("Dead ticket");
                 incorrectedTicketsInCart[index][index] =i;
                 incorrectedTicketsInCart[index][1] = -2;
@@ -151,6 +152,14 @@ public class Customer extends BoundBuffer implements Runnable{
             return -3;
         }
 
+        System.out.println("----------thread is currently execute["+Thread.currentThread().getName()+"]--------in this piece of code ");
+
+        System.out.println(Thread.currentThread().getState());
+        System.out.println("number of threads are active in checkout method for customers: "+customersCheckoutTheards.activeCount());
+        System.out.println("------------------End of thread-"+Thread.currentThread().getName()+"----------------------------------");
+
+
+
         int [][] checkedT = checkTicketsInCart();
        /*
         int loop = 5;
@@ -169,10 +178,19 @@ public class Customer extends BoundBuffer implements Runnable{
           return issetnew;
     }
 
+
+
+
+
     @Override
     public void run() {
         checkOut();
 
+    }
+    public Thread checkoutThread(){
+        Thread t  = new Thread(BoundBuffer.customersCheckoutTheards,this);
+        t.start();
+        return t;
     }
 
     public int removeFromCart(Ticket t){
@@ -187,11 +205,9 @@ public class Customer extends BoundBuffer implements Runnable{
 
     private int indexQr=-1;
     public void setPathForAllQrsFolder(String pathForAllQrsFloder) {
-        System.out.println(pathForAllQrsFloder);
         this.pathForAllQrsFloderCT = pathForAllQrsFloder;
         String[] qtemp = Directorylist(this.pathForAllQrsFloderCT,1,".png");
 
-        System.out.println(Arrays.toString(qtemp));
 
         Qrs = new String[20+ qtemp.length];
 
@@ -203,8 +219,7 @@ public class Customer extends BoundBuffer implements Runnable{
             indexQr = qtemp.length;
         else
            indexQr =0;
-        System.out.println(indexQr);
-        System.out.println(Arrays.toString(Qrs));
+
         qtemp = null;
     }
 
@@ -239,9 +254,7 @@ public class Customer extends BoundBuffer implements Runnable{
     }
 
     public void increasetNoTicketPaidbyCustomers(int noTicketPaidbyCustomers) {
-        this.noTicketPaidbyCustomers += noTicketPaidbyCustomers;
-        setNoTicketPaidbyCustomers(this.noTicketPaidbyCustomers,0);
-
+        setNoTicketPaidbyCustomers(this.noTicketPaidbyCustomers+noTicketPaidbyCustomers,0);
     }
 
 

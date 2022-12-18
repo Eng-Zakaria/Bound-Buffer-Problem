@@ -23,7 +23,6 @@ public class Cart {
         if(quentatiyForEachTickets == null)
             quentatiyForEachTickets = new int[10];
 
-
     }
 
     public Ticket[] getTicketsCart() {
@@ -64,6 +63,15 @@ public class Cart {
             nq = getQuentatiyForItemInCart(SearchIndex);
         }
 
+        System.out.println(I.getQuantity() == 0);
+        System.out.println(I.getAvailable() == false);
+        System.out.println(quentatiy+nq > I.getQuantity());
+        System.out.println(I.getQuantity());
+        System.out.println(I.getAvailable());
+        System.out.println(I.getIssold());
+        System.out.println(I.getIsDeadticket());
+
+        System.out.println(nq+quentatiy);
         if(I.getQuantity() == 0 || I.getAvailable() == false || quentatiy+nq > I.getQuantity()){
             System.out.println("those tickets are not available for now: "+I.getName());
             return 0;
@@ -129,10 +137,11 @@ public class Cart {
 
     public int changeQuentatiy(Ticket t, int NewQuentatiy){
         int indexTobeChanage = searchInCart(t);
-        if (noTicketsInCart == 0 || t == null || ticketsCart == null || indexTobeChanage == -1){
+        if (noTicketsInCart == 0 || t == null || ticketsCart == null || indexTobeChanage == -1 || totalNumberInCart == 0 ){
             System.out.println("invaild input");
-            return -1;
+            return -2;
         }
+
         if (NewQuentatiy < 0) return -1;
 
 
@@ -161,6 +170,8 @@ public class Cart {
             quentatiyForEachTickets[indexTobeChanage] = NewQuentatiy;
             totalNumberInCart -= beforeChanageValue;
             totalNumberInCart += NewQuentatiy;
+            total -= (t.getPrice()* beforeChanageValue);
+            total += (t.getPrice() * NewQuentatiy);
             return 1;
         }
 
@@ -190,6 +201,7 @@ public class Cart {
 
         ticketsCart = ticketTemp;
         quentatiyForEachTickets = QTemp;
+        total -= tick.getPrice();
         noTicketsInCart--;
 
         return 1;

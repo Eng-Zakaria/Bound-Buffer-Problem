@@ -4,8 +4,6 @@ import com.google.zxing.NotFoundException;
 import com.google.zxing.WriterException;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 public class Ticket extends BoundBuffer{
@@ -67,7 +65,7 @@ public class Ticket extends BoundBuffer{
         if(!isValidFormat("dd-mm-yy",startTime, Locale.ENGLISH)) return 0;
         this.startTime = startTime;
         editValueLine(this.pathInFolderOwner,"StartTime",startTime,9);
-        editValueLine(this.pathInViewCT,"StartTime",startTime,9);
+      //  editValueLine(this.pathInViewCT,"StartTime",startTime,9);
         return 1;
     }
 
@@ -79,7 +77,7 @@ public class Ticket extends BoundBuffer{
         if(!isValidFormat("dd-mm-yy",endTime, Locale.ENGLISH)) return 0;
         this.endTime = endTime;
         editValueLine(this.pathInFolderOwner,"EndTime",endTime,10);
-        editValueLine(this.pathInViewCT,"EndTime",endTime,10);
+      //  editValueLine(this.pathInViewCT,"EndTime",endTime,10);
         return 1;
     }
 
@@ -91,11 +89,11 @@ public class Ticket extends BoundBuffer{
         return issold;
     }
 
-    public int setIssold(int issold) {
+    public int setIssold(int issold1) {
 
-        if(this.issold == issold) return 0;
+        if(this.issold == issold1) return 0;
 
-         this.issold = issold;
+         this.issold = issold1;
          return 1;
     }
 
@@ -121,7 +119,7 @@ public class Ticket extends BoundBuffer{
     public void setQuantity(int quantity) {
         this.quantity = quantity;
         editValueLine(this.pathInFolderOwner,"quantity",String.valueOf(quantity),7);
-        editValueLine(this.pathInViewCT,"quantity",String.valueOf(quantity),7);
+      //  editValueLine(this.pathInViewCT,"quantity",String.valueOf(quantity),7);
         int totalQantityBeforeEdit = Integer.valueOf(ReadValueLine(this.pathOwner,"TicketsIncludeQuantity",7));
 
         if(totalQantityBeforeEdit > 0)
@@ -188,7 +186,7 @@ public class Ticket extends BoundBuffer{
     public void setName(String name) {
         this.name = name;
         editValueLine(this.pathInFolderOwner,"name",name,5);
-        editValueLine(this.pathInViewCT,"name",name,5);
+      //  editValueLine(this.pathInViewCT,"name",name,5);
 
     }
 
@@ -199,7 +197,7 @@ public class Ticket extends BoundBuffer{
     public void setType(String type) {
         this.type = type;
         editValueLine(this.pathInFolderOwner,"type",type,6);
-        editValueLine(this.pathInViewCT,"type",type,6);
+      //  editValueLine(this.pathInViewCT,"type",type,6);
 
     }
 
@@ -210,7 +208,7 @@ public class Ticket extends BoundBuffer{
     public void setPrice(double price) {
         this.price = price;
         editValueLine(this.pathInFolderOwner,"price",Double.toString(price),11);
-        editValueLine(this.pathInViewCT,"price",Double.toString(price),11);
+      //  editValueLine(this.pathInViewCT,"price",Double.toString(price),11);
 
     }
 
@@ -221,7 +219,7 @@ public class Ticket extends BoundBuffer{
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
         editValueLine(this.pathInFolderOwner,"imagePath",imagePath,3);
-        editValueLine(this.pathInViewCT,"imagePath",imagePath,3);
+      //  editValueLine(this.pathInViewCT,"imagePath",imagePath,3);
 
     }
 
@@ -232,7 +230,7 @@ public class Ticket extends BoundBuffer{
     public void setDescription(String description) {
         this.description = description;
         editValueLine(this.pathInFolderOwner,"Description",description,8);
-        editValueLine(this.pathInViewCT,"Description",description,8);
+       // editValueLine(this.pathInViewCT,"Description",description,8);
 
     }
 
@@ -251,8 +249,14 @@ public class Ticket extends BoundBuffer{
     public int MakeNoLongerAvailablity(int load) {
         if(available == false) return 0;
             if(load == 0) {
+
+
                 editValueLine(this.pathInFolderOwner, "Description", "~" + this.description, 8);
-                editValueLine(this.pathInViewCT, "Description", "~" + this.description, 8);
+              //  editValueLine(this.pathInViewCT, "Description", "~" + this.description, 8);
+                editValueLine(this.pathInFolderOwner, "quantity", "0", 7);
+                //editValueLine(this.pathInViewCT, "quantity", "0", 7);
+
+
                 int noTicketsBeforeEdit = Integer.valueOf(ReadValueLine(this.pathOwner,"TicketsForSell",6));
                 int totalQantityBeforeEdit = Integer.valueOf(ReadValueLine(this.pathOwner,"TicketsIncludeQuantity",7));
                 if(noTicketsBeforeEdit > 0 && totalQantityBeforeEdit > 0) {
@@ -308,6 +312,7 @@ public class Ticket extends BoundBuffer{
         System.out.println(!this.available);
         System.out.println(quantity > this.quantity);
         System.out.println(issold == 1);
+        /*
         if(this.quantity == 0 || !this.available || quantity > this.quantity || this.issold == 1){
             System.out.println("those tickets are not available "+this.name);
             return 0;
@@ -328,6 +333,8 @@ public class Ticket extends BoundBuffer{
             throw new RuntimeException(e);
         }
 
+
+         */
 
         if(quantity == this.quantity)
             sold();
@@ -353,11 +360,13 @@ public class Ticket extends BoundBuffer{
 
          int sell = sellTickets(quantity);
         if( sell <= 0){
-            return sell;
+            //without applied the solution I had checked tickets before adding it in cart so i don't need to check that again
+            //so when i'm trying to buy tickets for customer logically without insure there is one only customer can have those tickets, moreover ,without re
+            //thanking in concurrency way (regardless The time there are many customers trying to buy total quantity of THE SAME ticket) actaly we will pass all of these requstes
+            // to buy total of quantity of the same ticket (DOES NOT MAKE ANY SENSE TO DO THAT BUT AS YOU WENT prf. (0_-))
+           // return sell;
         }
 
-        if(this.owner != null)
-            this.owner.soldTicketNotify(Ticket.this,quantity);
 
         System.out.println("The date of purchase: "+now());
 
@@ -371,8 +380,14 @@ public class Ticket extends BoundBuffer{
 
         c.increasetNoTicketPaidbyCustomers(quantity);
         System.out.println("the number of tickets you have: "+c.getNoTicketPaidbyCustomers());
-
-        this.generateQrcode(c.getPathForAllQrsFloder()+"\\"+c.getIndexQr()+this.name+"[" +this.owner.getNameOfStore() +"]"+".png",  "owner: "+this.owner.getNameOfStore()+"\nname of event: "+this.name+"idEvent: "+this.id+"\nEmail: "+c.getEmail()+"\n customer's id: "+String.valueOf(c.getId())+"\nStart Time:"+this.startTime+" End Time:"+this.endTime+"\n number of person: "+ quantity+"The date of purchase : "+now());
+        String nameOfStore = "";
+        if(this.owner != null) {
+            nameOfStore = this.owner.getNameOfStore();
+            this.owner.soldTicketNotify(Ticket.this, quantity);
+        } else{
+            nameOfStore = ReadValueLine(this.pathOwner, "nameOfStore", 2);
+        }
+        this.generateQrcode(c.getPathForAllQrsFloder()+"\\"+(c.getIndexQr()+1)+this.name+"[" +nameOfStore +"]"+".png",  "owner: "+nameOfStore+"\nname of event: "+this.name+"idEvent: "+this.id+"\nEmail: "+c.getEmail()+"\n customer's id: "+String.valueOf(c.getId())+"\nStart Time:"+this.startTime+" End Time:"+this.endTime+"\n number of person: "+ quantity+"The date of purchase : "+now());
         c.recieveQr(this.Qrcode);
         System.out.println("quantity ");
         System.out.println(quantity);
