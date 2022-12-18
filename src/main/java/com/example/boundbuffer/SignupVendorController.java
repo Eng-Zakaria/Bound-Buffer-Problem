@@ -7,10 +7,14 @@ import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import javafx.scene.control.TextField;
 
+import java.io.File;
 import java.io.IOException;
 
 public class SignupVendorController {
@@ -25,8 +29,11 @@ public class SignupVendorController {
     TextField usernameTxt;
     @FXML
     PasswordField passwordTxt;
+
     @FXML
-    TextField imagePathTxt;
+    Image image;
+
+    String imagePathTxt;
     @FXML
     TextArea descriptionTxt;
     @FXML
@@ -35,6 +42,8 @@ public class SignupVendorController {
     Button backToLoginBtn;
     @FXML
     Label invalidDataLabel;
+    @FXML
+    ImageView imageView;
 
 
 
@@ -46,23 +55,48 @@ public class SignupVendorController {
     public void addVendor2(){
 
     }
+    public void uploadVendorImage(ActionEvent event){
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Image File","*.png","*.jpg"));
+
+        File file = fileChooser.showOpenDialog(stage);
+
+        try {
+            if (file !=null){
+                imagePathTxt = file.getPath();
+                image = new Image(file.getPath());
+                imageView.setImage(image);
+            }
+            else{
+                invalidDataLabel.setText("Please Insert a valid Image");
+            }
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
     public void signUpVendor(ActionEvent event) throws IOException {
 
         try {
-            if(!(storeNameTxt.getText().equals("") || usernameTxt.getText().equals("") || passwordTxt.getText().equals("") || imagePathTxt.getText().equals("") || descriptionTxt.getText().equals(""))){
-                //String nameOfStore,String username,String password,String imagepath,String des
-                String [] data = {storeNameTxt.getText(), usernameTxt.getText(), passwordTxt.getText(), imagePathTxt.getText(), descriptionTxt.getText() };
+            if( image != null && imagePathTxt.endsWith(".jpg")) {
+                if (!storeNameTxt.getText().isEmpty() && !usernameTxt.getText().isEmpty() && !passwordTxt.getText().isEmpty() && !imagePathTxt.isEmpty() && !descriptionTxt.getText().isEmpty()) {
+                    //String nameOfStore,String username,String password,String imagepath,String des
+                    String[] data = {storeNameTxt.getText(), usernameTxt.getText(), passwordTxt.getText(), imagePathTxt, descriptionTxt.getText()};
 
-                BoundBuffer.signUp(2,data);
+                    BoundBuffer.signUp(2, data);
+                    General general = new General();
+                    general.changeScene(event, "hello-view.fxml");
+                } else {
 
-                General general = new General();
-                general.changeScene(event, "vendor-view.fxml");
+                    invalidDataLabel.setText("Please Enter Valid Data");
+
+                }
             }
-           else {
-
-                invalidDataLabel.setText("Please Enter Valid Data");
-
+            else{
+                invalidDataLabel.setText("Please insert Valid");
             }
 
         }

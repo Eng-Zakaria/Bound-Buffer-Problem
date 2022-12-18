@@ -47,7 +47,7 @@ public class SignupCustomerController {
                 BoundBuffer.signUp(1, data);
 
                 General general = new General();
-                general.changeScene(event, "vendor-view.fxml");
+                general.changeScene(event, "hello-view.fxml");
             } else {
 
                 invalidDataLabel.setText("Please Enter Valid Data");

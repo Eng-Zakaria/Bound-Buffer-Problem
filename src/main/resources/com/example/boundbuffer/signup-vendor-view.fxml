@@ -1,27 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="410.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.boundbuffer.SignupVendorController">
+<AnchorPane prefHeight="434.0" prefWidth="639.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.boundbuffer.SignupVendorController">
    <children>
-      <HBox alignment="CENTER" layoutY="342.0" prefHeight="50.0" prefWidth="410.0" spacing="100.0">
+      <HBox alignment="CENTER" layoutX="-1.0" layoutY="383.0" prefHeight="50.0" prefWidth="410.0" spacing="100.0">
          <children>
             <Button fx:id="backToLoginBtn" mnemonicParsing="false" onAction="#backToLogin" prefHeight="0.0" prefWidth="116.0" text="Back to Login" />
             <Button fx:id="confirmSignupVendorBtn" layoutX="157.0" layoutY="22.0" mnemonicParsing="false" onAction="#signUpVendor" prefHeight="0.0" prefWidth="116.0" text="Sign Up" />
          </children>
       </HBox>
-      <HBox prefHeight="307.0" prefWidth="410.0">
+      <HBox prefHeight="351.0" prefWidth="410.0">
          <children>
-            <VBox alignment="TOP_RIGHT" prefHeight="307.0" prefWidth="175.0" spacing="20.0">
+            <VBox alignment="TOP_RIGHT" prefHeight="323.0" prefWidth="175.0" spacing="20.0">
                <children>
                   <Pane prefHeight="35.0" prefWidth="178.0" />
                   <Label prefHeight="29.0" prefWidth="119.0" text="Store Name">
@@ -39,15 +41,18 @@
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <Label layoutX="10.0" layoutY="69.0" prefHeight="29.0" prefWidth="119.0" text="Image">
-                     <font>
-                        <Font name="System Bold" size="18.0" />
-                     </font>
-                  </Label>
                   <Label layoutX="10.0" layoutY="99.0" prefHeight="29.0" prefWidth="119.0" text="Description">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
+                  </Label>
+                  <Label layoutX="10.0" layoutY="69.0" prefHeight="29.0" prefWidth="119.0" text="Image">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="65.0" />
+                     </VBox.margin>
                   </Label>
                </children>
             </VBox>
@@ -65,12 +70,17 @@
                   <TextField fx:id="storeNameTxt" promptText="Store Name" />
                   <TextField fx:id="usernameTxt" layoutX="10.0" layoutY="10.0" promptText="Username" />
                   <PasswordField fx:id="passwordTxt" promptText="Password" />
-                  <TextField fx:id="imagePathTxt" layoutX="10.0" layoutY="61.0" promptText="Image" />
-                  <TextArea fx:id="descriptionTxt" prefHeight="8.0" prefWidth="210.0" promptText="Description" />
+                  <TextArea fx:id="descriptionTxt" prefHeight="94.0" prefWidth="210.0" promptText="Description" />
+                  <Button fx:id="uploadImageBtn" mnemonicParsing="false" onAction="#uploadVendorImage" prefHeight="26.0" prefWidth="100.0" text="Upload Image">
+                     <VBox.margin>
+                        <Insets right="70.0" />
+                     </VBox.margin>
+                  </Button>
                </children>
             </VBox>
          </children>
       </HBox>
-      <Label fx:id="invalidDataLabel" layoutX="139.0" layoutY="325.0" prefHeight="18.0" prefWidth="154.0" text="invalid inputs" textFill="RED" />
+      <Label fx:id="invalidDataLabel" layoutX="129.0" layoutY="364.0" prefHeight="18.0" prefWidth="264.0" text="invalid inputs" textFill="RED" />
+      <ImageView fx:id="imageView" fitHeight="150.0" fitWidth="200.0" layoutX="410.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>

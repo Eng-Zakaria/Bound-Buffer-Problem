@@ -1,12 +1,10 @@
 package com.example.boundbuffer;
 
-import com.example.boundbuffer.DB.DBContext;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class HelloApplication extends Application{
 
