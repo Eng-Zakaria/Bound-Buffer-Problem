@@ -92,10 +92,11 @@ public class Ticket extends BoundBuffer{
     }
 
     public int setIssold(int issold) {
-        if(this.issold == issold) return 0;
-        this.issold = issold;
-        return 1;
 
+        if(this.issold == issold) return 0;
+
+         this.issold = issold;
+         return 1;
     }
 
     public void generateQrcode(String path, String data)
@@ -121,10 +122,15 @@ public class Ticket extends BoundBuffer{
         this.quantity = quantity;
         editValueLine(this.pathInFolderOwner,"quantity",String.valueOf(quantity),7);
         editValueLine(this.pathInViewCT,"quantity",String.valueOf(quantity),7);
+        int totalQantityBeforeEdit = Integer.valueOf(ReadValueLine(this.pathOwner,"TicketsIncludeQuantity",7));
+
+        if(totalQantityBeforeEdit > 0)
+            editValueLine(this.pathOwner,"TicketsIncludeQuantity",String.valueOf(totalQantityBeforeEdit - quantity),7);
+
 
     }
 
-    public int getDeadticket() {
+    public int getIsDeadticket() {
         return deadticket;
     }
 
@@ -242,11 +248,19 @@ public class Ticket extends BoundBuffer{
         return available;
     }
 
-    public int MakeNoLongerAvailablity() {
+    public int MakeNoLongerAvailablity(int load) {
         if(available == false) return 0;
+            if(load == 0) {
+                editValueLine(this.pathInFolderOwner, "Description", "~" + this.description, 8);
+                editValueLine(this.pathInViewCT, "Description", "~" + this.description, 8);
+                int noTicketsBeforeEdit = Integer.valueOf(ReadValueLine(this.pathOwner,"TicketsForSell",6));
+                int totalQantityBeforeEdit = Integer.valueOf(ReadValueLine(this.pathOwner,"TicketsIncludeQuantity",7));
+                if(noTicketsBeforeEdit > 0 && totalQantityBeforeEdit > 0) {
+                    editValueLine(this.pathOwner, "TicketsForSell", String.valueOf((noTicketsBeforeEdit - 1)), 6);
+                    editValueLine(this.pathOwner,"TicketsIncludeQuantity",String.valueOf(totalQantityBeforeEdit - this.quantity),7);
+                }
 
-            editValueLine(this.pathInFolderOwner, "Description", "~" + this.description, 8);
-            editValueLine(this.pathInViewCT, "Description", "~" + this.description, 8);
+            }
         this.available = false;
         return 1;
     }
@@ -275,7 +289,7 @@ public class Ticket extends BoundBuffer{
     public Boolean sold(){
         if(available ==true){
             setIssold(1);
-            MakeNoLongerAvailablity();
+            MakeNoLongerAvailablity(0);
             return true;
         }else {
 
@@ -287,36 +301,63 @@ public class Ticket extends BoundBuffer{
 
     }
 
-    public int buy(Customer c,int quantity){
 
-        System.out.println("---------------------receipt for ticket: \\\\\" "+this.name+" \\\\\"---------------------------");
-        if(this.quantity == 0 || this.available == false || quantity > this.quantity || this.issold == 1){
+    public int sellTickets(int quantity){
+
+        System.out.println(this.quantity == 0);
+        System.out.println(!this.available);
+        System.out.println(quantity > this.quantity);
+        System.out.println(issold == 1);
+        if(this.quantity == 0 || !this.available || quantity > this.quantity || this.issold == 1){
             System.out.println("those tickets are not available "+this.name);
             return 0;
         }
 
-        if(this.getDeadticket() == 1)
+        if(this.getIsDeadticket() == 1)
             return -1;
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-
 
         try {
             if(sdf.parse(now()).after(sdf.parse(this.endTime))){
                 System.out.println("tickets for this event have dead");
                 this.setDeadticket(1);
-                return -1;
+                return -2;
             }
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
 
-        if(c.getBalance() < (this.price * quantity)){
-            System.out.println("your balance is not enough to checkout for these tickets: "+this.name+" your balance: "+c.getBalance()+"change is :"+ ( (quantity*price) - c.getBalance()) );
-            return -2;
+
+        if(quantity == this.quantity)
+            sold();
+        else
+            setQuantity(quantity);
+
+
+        return 1;
         }
 
-        this.owner.soldTicket(Ticket.this,quantity);
+
+
+
+    public int buy(Customer c,int quantity){
+
+        System.out.println("---------------------receipt for ticket: \\\\\" "+this.name+" \\\\\"---------------------------");
+
+
+        if(c.getBalance() < (this.price * quantity)){
+            System.out.println("your balance is not enough to checkout for these tickets: "+this.name+" your balance: "+c.getBalance()+"change is :"+ ( (quantity*price) - c.getBalance()) );
+            return -3;
+        }
+
+         int sell = sellTickets(quantity);
+        if( sell <= 0){
+            return sell;
+        }
+
+        if(this.owner != null)
+            this.owner.soldTicketNotify(Ticket.this,quantity);
 
         System.out.println("The date of purchase: "+now());
 
@@ -332,7 +373,6 @@ public class Ticket extends BoundBuffer{
         System.out.println("the number of tickets you have: "+c.getNoTicketPaidbyCustomers());
 
         this.generateQrcode(c.getPathForAllQrsFloder()+"\\"+c.getIndexQr()+this.name+"[" +this.owner.getNameOfStore() +"]"+".png",  "owner: "+this.owner.getNameOfStore()+"\nname of event: "+this.name+"idEvent: "+this.id+"\nEmail: "+c.getEmail()+"\n customer's id: "+String.valueOf(c.getId())+"\nStart Time:"+this.startTime+" End Time:"+this.endTime+"\n number of person: "+ quantity+"The date of purchase : "+now());
-
         c.recieveQr(this.Qrcode);
         System.out.println("quantity ");
         System.out.println(quantity);

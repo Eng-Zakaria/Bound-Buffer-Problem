@@ -14,8 +14,7 @@ public class Vendor extends BoundBuffer implements Runnable{
     private String password;
     private String des;
     private int noTickets;
-    private int TotalnoTicketsIcludeQuntity=0;
-
+    private int TotalnoTicketsIcludeQuntity;
     private String pathInfofile;
     private ArrayList<Ticket> ticketsForSellByEveryVendor =null;
     private String pathFolderTicketCreatedByVendor;
@@ -30,7 +29,6 @@ public class Vendor extends BoundBuffer implements Runnable{
         this.password = password;
         this.imagepath = imagepath;
         this.des = des;
-        this.noTickets = 0;
         ticketsForSellByEveryVendor = new ArrayList<>();
         allPathForticketsCreatedByMeInCustomerView = new ArrayList<String>();
 
@@ -49,6 +47,9 @@ public class Vendor extends BoundBuffer implements Runnable{
             String[] values = {imagepath,String.valueOf(this.id), nameOfStore, username, password,des,String.valueOf(noTickets),String.valueOf(TotalnoTicketsIcludeQuntity),this.pathFolderTicketCreatedByVendor};
             this.pathInfofile = Creetefiletxt(this.id+" ["+username+"] ","D:\\Java programming\\OS2-project\\Bound-Buffer-Problem\\DataBase\\vendors\\");
             WriteData(this.pathInfofile,nameofattribues,values,9);
+            setNoTickets(0,0);
+            setTotalnoTicketsIcludeQuntity(0,0);
+
 
             if(check == 1) {
                 editValueInSearchFile("D:\\Java programming\\OS2-project\\Bound-Buffer-Problem\\DataBase\\SearchData\\vendorsLoginData.txt", "account", username, "deleted", "0");
@@ -62,7 +63,7 @@ public class Vendor extends BoundBuffer implements Runnable{
     }
     // String PathFolderOwner,String pathOwner,String name, String type, int quantity,double price, String imagePath, String description,String startTime ,String EndTime
     public int addTicket(String name, String type,int quantity ,double price, String imagepath,String description,String startTime,String EndTime){
-         if(price < 0 || quantity == 0) {
+         if(price < 0 || quantity <= 0) {
              System.out.println("invalid data");
              return 0;
          }
@@ -74,7 +75,6 @@ public class Vendor extends BoundBuffer implements Runnable{
 
         if(BoundBuffer.isValidFormat("dd-mm-yy",EndTime, Locale.ENGLISH)) {
             System.out.println("invalid date End time");
-
             return 0;
         }
 
@@ -82,6 +82,7 @@ public class Vendor extends BoundBuffer implements Runnable{
 
         try {
             if(sdf.parse(EndTime).before(sdf.parse(startTime))){
+                System.out.println("invalid End time are you stupid to enter start time after end time");
                 return 0;
             }
         } catch (ParseException e) {
@@ -89,15 +90,23 @@ public class Vendor extends BoundBuffer implements Runnable{
         }
 
 
+
+        System.out.println("----------thread is currently execute["+Thread.currentThread().getName()+"]--------in this piece of code ");
+
+        System.out.println("the state of this thread :"+Thread.currentThread().getState());
+        System.out.println("Number of threads running now in add ticket method in vendors : "+vendorsAddingTicketsTheards.activeCount());
+
+        System.out.println("------------------End of thread-"+Thread.currentThread().getName()+"----------------------------------");
+
+
+
         Ticket I = new Ticket(this.pathFolderTicketCreatedByVendor,pathInfofile,name,type,quantity,price,imagepath, description, startTime, EndTime,1);
         I.setOwner( Vendor.this);
 
+        setNoTickets(noTickets+1,0);
+        setTotalnoTicketsIcludeQuntity(TotalnoTicketsIcludeQuntity+quantity,0);
+
         ticketsForSellByEveryVendor.add(I);
-
-        this.noTickets++;
-
-        this.TotalnoTicketsIcludeQuntity+=quantity;
-
         this.allPathForticketsCreatedByMeInCustomerView.add(I.getPathInViewCT());
 
         BoundBuffer.tickets.add(I);
@@ -113,22 +122,23 @@ public class Vendor extends BoundBuffer implements Runnable{
     public void run() {
 
        for (int i=0; i< 5;i++)
-        addTicket("tiket "+i+" "+this.username,"gold",120,10.0,".png","Event description","17-12-2022","20-12-2022");
+        addTicket("tiket "+i+" "+this.username,"gold",120,10.0,".png","Event description",now(),"20-12-2022");
 
-
+    }
+    public Thread addingTheard(){
+        Thread t =new Thread(BoundBuffer.vendorsAddingTicketsTheards,this);
+        t.start();
+        return t;
     }
 
 
     public int deleteTicket(Ticket I){
-        System.out.println("0000000000----------------");
         System.out.println("here deleted");
-        System.out.println("---------------------------");
+
         System.out.println(I.getOwner() + " "+ Vendor.this);
         if(noTickets ==0 || I==null || ticketsForSellByEveryVendor == null || I.getOwner() != Vendor.this)return 0;
         System.out.println("here deleted");
 
-        System.out.println("----------------");
-        System.out.println("-------------------------");
 
         makeFileBeDeleted(I.getPathInFolderOwner(),I.getName());
         makeFileBeDeleted(I.getPathInViewCT(),I.getName());
@@ -172,6 +182,7 @@ public class Vendor extends BoundBuffer implements Runnable{
         return 1;
     }
 
+
     public String getPassword() {
         return password;
     }
@@ -201,6 +212,8 @@ public class Vendor extends BoundBuffer implements Runnable{
 
 
     public void setTicketsForSellByEveryVendor(ArrayList<Ticket> ticketsForSellByEveryVendor) {
+
+
         if(ticketsForSellByEveryVendor.size() < 1 || ticketsForSellByEveryVendor == null){
             this.ticketsForSellByEveryVendor = new ArrayList<Ticket>(10);
             return;
@@ -223,6 +236,8 @@ public class Vendor extends BoundBuffer implements Runnable{
                 }
             }
         }
+
+        if(index >= 0)
         tickets.addAll(index,this.ticketsForSellByEveryVendor);
 
 
@@ -347,30 +362,15 @@ public class Vendor extends BoundBuffer implements Runnable{
         return this.TotalnoTicketsIcludeQuntity;
     }
 
-    private int reduceQuantity(Ticket t,int q){
-        t.setQuantity(q);
-        return 1;
 
-    }
-
-    public int soldTicket(Ticket t,int quantity){
+    public int soldTicketNotify(Ticket t,int quantity){
         if(noTickets ==0 || ticketsForSellByEveryVendor == null || t.getOwner() != Vendor.this||!this.ticketsForSellByEveryVendor.contains(t))return 0;
 
         System.out.println("--------------------\n-------------");
-        System.out.println(t.getQuantity() + " "+quantity);
-        if(t.getQuantity() == quantity){
-            System.out.println("here in === ");
-            t.sold();
-        }
-        System.out.println("------here-----------");
-        System.out.println("-------here-----------");
-        t.setQuantity(t.getQuantity() - quantity);
-        setTotalnoTicketsIcludeQuntity(this.TotalnoTicketsIcludeQuntity - quantity,0);
-        System.out.println(      "vendors : " + this.getTicketsForSellByEveryVendor().get(  this.getTicketsForSellByEveryVendor().indexOf(t)).getQuantity());
-        //this.getTicketsForSellByEveryVendor().get(  this.getTicketsForSellByEveryVendor().indexOf(t) ).setQuantity(t.getQuantity() - quantity);
-        System.out.println(       "tickets : " +tickets.get( tickets.indexOf(t) ).getQuantity());
-        //tickets.get( tickets.indexOf(t) ).setQuantity(t.getQuantity() - quantity);
-
+        System.out.println("tickets quantity before selling: "+t.getQuantity() + "Quantity required: "+quantity);
+        System.out.println( "vendors : " + this.getTicketsForSellByEveryVendor().get(  this.getTicketsForSellByEveryVendor().indexOf(t) ).getQuantity());
+        System.out.println( "tickets : " +tickets.get( tickets.indexOf(t)  ).getQuantity());
+        System.out.println("there are ticket(s) have been sold cheerz!!!");
 
         return 1;
     }
