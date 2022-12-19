@@ -1,7 +1,9 @@
 package com.example.boundbuffer;
 
 import com.example.boundbuffer.Models.BoundBuffer;
+import com.example.boundbuffer.Models.Customer;
 import com.example.boundbuffer.Models.Ticket;
+import com.example.boundbuffer.Models.Vendor;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -63,7 +65,7 @@ public class CustomersController {
     @FXML
     TextField ticketTypeTxt;
     @FXML
-    TextField ticketQuantityTxt;
+    Spinner<Integer> spinnerQuantity;
     @FXML
     TextField ticketPriceTxt;
     @FXML
@@ -76,24 +78,40 @@ public class CustomersController {
     ImageView imageView;
     @FXML
     Button addCartBtn;
+    @FXML
+    Tab ticketTab;
+    @FXML
+    Tab cartTab;
 
     @FXML
     Image image;
 
+    @FXML
+    Image imageQr;
+    @FXML
+    Image imageViewQr;
+
     String imagePathTxt;
+    String imageQrTxt;
 
+    Ticket ticket;
 
-    public void checkoutCustomerCart(ActionEvent event){
+    Customer customer;
 
+    public void setCustomer(Customer customer){
+        this.customer = customer;
+    }
+    public Customer getCustomer(){
+        return this.customer;
     }
 
+
+
     ObservableList<Ticket> customerTicketsCollection = FXCollections.observableArrayList(BoundBuffer.tickets);
+    ObservableList<Ticket> customerTicketsCollection1;
 
     public void showCustomerTicketTableView(ActionEvent event) {
 
-        int i = 0;
-        while( i<BoundBuffer.tickets.size()){
-            if(!BoundBuffer.tickets.get(i).sold()){
                 customerTicketsCollection = FXCollections.observableArrayList(BoundBuffer.tickets);
                 customerTicketTV.setItems(customerTicketsCollection);
                 ticketName.setCellValueFactory(new PropertyValueFactory<>("Name"));
@@ -103,23 +121,42 @@ public class CustomersController {
                 ticketQuantity.setCellValueFactory(new PropertyValueFactory<>("Quantity"));
                 ticketStartDate.setCellValueFactory(new PropertyValueFactory<>("StartTime"));
                 ticketExpiryDate.setCellValueFactory(new PropertyValueFactory<>("EndTime"));
-            }
-            i++;
-        }
+
+    }
+    public void showCustomerCartTableView(ActionEvent event) {
+
+
+        General general = new General();
+        Customer customer;
+        customer = (Customer) general.receiveObjDataInScene(event);
+
+
+//        customer.getCart().getQuentatiyForItemInCart(customer.getCart().getTicketsCart()[1].getName());
+        customer.getCart().getQuentatiyForItemInCart(customer.getCart().getQuentatiyForEachTickets()[1]);
+        customerTicketsCollection1 = FXCollections.observableArrayList(customer.getCart().getTicketsCart());
+        customerTicketTV1.setItems(customerTicketsCollection1);
+        ticketName1.setCellValueFactory(new PropertyValueFactory<>("Name"));
+        ticketDescription1.setCellValueFactory(new PropertyValueFactory<>("Description"));
+        ticketType1.setCellValueFactory(new PropertyValueFactory<>("Type"));
+        ticketPrice1.setCellValueFactory(new PropertyValueFactory<>("Price"));
+        ticketQuantity1.setCellValueFactory(new PropertyValueFactory<>("Quantity"));
+        ticketStartDate1.setCellValueFactory(new PropertyValueFactory<>("StartTime"));
+        ticketExpiryDate1.setCellValueFactory(new PropertyValueFactory<>("EndTime"));
 
     }
 
+
     public void clickOnTicket(MouseEvent event){
         if(event.getClickCount() == 2){
-//            return (Ticket) event.getSource();
-//            Object item = cell.getTableRow().getItem();
 
+            tabPane.getSelectionModel().select(buyTicketTab);
             Ticket ticket = customerTicketTV.getSelectionModel().getSelectedItem();
 
             ticketTitleTxt.setText(ticket.getName());
             ticketPriceTxt.setText(String.valueOf(ticket.getPrice()));
-            ticketType.setText(String.valueOf(ticket.getType()));
-            ticketQuantityTxt.setText(String.valueOf(ticket.getQuantity()));
+            ticketTypeTxt.setText(String.valueOf(ticket.getType()));
+            spinnerQuantity.setPromptText(String.valueOf(ticket.getQuantity()));
+
             ticketDescriptionTxt.setText(String.valueOf(ticket.getDescription()));
             ticketStartTimeTxt.setText(String.valueOf(ticket.getStartTime()));
             ticketExpiryTimeTxt.setText(String.valueOf(ticket.getEndTime()));
@@ -127,28 +164,57 @@ public class CustomersController {
 
             image = new Image(ticket.getImagePath());
             imageView.setImage(image);
-            tabPane.getSelectionModel().select(buyTicketTab);
+            setTicket(ticket);
+
+
         }
     }
-    public void setTicketInfo(Ticket ticket){
-         Ticket selectedTicket = customerTicketsCollection.get(customerTicketsCollection.indexOf(ticket));
+
+    public void setTicket(Ticket t){
+        ticket = t;
+    }
+    public Ticket getTicket(){
+        return ticket;
     }
 
     public void addToCart(ActionEvent event){
+        try{
+            getTicket();
+            General general = new General();
+            Customer customer = (Customer) general.receiveObjDataInScene(event);
+
+            customer.addToCart(ticket,ticket.getQuantity());
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    public void checkoutCustomerCart(ActionEvent event){
+
+        try{
+            ticket = getTicket();
+            General general = new General();
+            Customer customer = (Customer) general.receiveObjDataInScene(event);
+
+            ticket.buy(customer, spinnerQuantity.getValue());
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
 
     }
+
+
+
+
     public void back(ActionEvent event) throws Exception {
 
         General general = new General();
         general.changeScene(event,"hello-view.fxml");
-
     }
     public void exit(){
         Platform.exit();
     }
-
-
-
-
 
 }

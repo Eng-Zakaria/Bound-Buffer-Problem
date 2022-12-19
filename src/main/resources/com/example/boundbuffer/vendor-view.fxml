@@ -18,13 +18,13 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="605.0" prefWidth="887.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.boundbuffer.VendorsController">
    <children>
-      <TabPane prefHeight="539.0" prefWidth="887.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane fx:id="tabPane" prefHeight="539.0" prefWidth="887.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab text="View My Tickets">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView fx:id="vendorTicketTV" layoutX="2.0" prefHeight="503.0" prefWidth="878.0">
+                        <TableView fx:id="vendorTicketTV" layoutX="2.0" onMouseClicked="#editTicket" prefHeight="503.0" prefWidth="878.0">
                           <columns>
                             <TableColumn fx:id="ticketName" prefWidth="108.00006031990051" text="Name" />
                               <TableColumn fx:id="ticketDescription" prefWidth="161.59994506835938" text="Description" />
@@ -38,25 +38,6 @@
                      </children></AnchorPane>
             </content>
           </Tab>
-            <Tab text="View Sold out Tickets">
-               <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <TableView fx:id="vendorTicketTV1" layoutX="2.0" prefHeight="503.0" prefWidth="878.0">
-                           <columns>
-                              <TableColumn fx:id="ticketName1" prefWidth="108.00006031990051" text="Name" />
-                              <TableColumn fx:id="ticketDescription1" prefWidth="161.59994506835938" text="Description" />
-                              <TableColumn fx:id="ticketType1" prefWidth="104.79998779296875" text="Type" />
-                              <TableColumn fx:id="ticketPrice1" prefWidth="112.79998779296875" text="Price" />
-                              <TableColumn fx:id="ticketQuantity1" prefWidth="126.4000244140625" text="Quaninity" />
-                              <TableColumn fx:id="ticketStartDate1" prefWidth="139.99993896484375" text="Start Date" />
-                              <TableColumn fx:id="ticketExpiryDate1" prefWidth="110.0" text="Expiry Date" />
-                           </columns>
-                        </TableView>
-                     </children>
-                  </AnchorPane>
-               </content>
-            </Tab>
           <Tab text="Add Tickets">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
@@ -114,8 +95,8 @@
                                  <children>
                                     <TextField fx:id="ticketTitleTxt" prefHeight="0.0" prefWidth="294.0" promptText="Ticket Title " />
                                     <TextField fx:id="ticketTypeTxt" prefHeight="26.0" prefWidth="294.0" promptText="Ticket Type" />
-                                    <Spinner fx:id="quantitySpinner" editable="true" initialValue="50" max="1000000" min="1" prefHeight="26.0" prefWidth="349.0" />
-                                    <Spinner fx:id="priceSpinner" editable="true" initialValue="200.0" max="1000000" min="1.0" prefHeight="26.0" prefWidth="339.0" />
+                                    <Spinner fx:id="quantitySpinner" editable="true" initialValue="1000" max="1000000" min="1" prefHeight="26.0" prefWidth="349.0" />
+                                    <Spinner fx:id="priceSpinner" editable="true" initialValue="200.0" max="1000000.0" min="1.0" prefHeight="26.0" prefWidth="339.0" />
                                     <TextField fx:id="ticketDescriptionTxt" layoutX="10.0" layoutY="196.0" promptText="Ticket Description" />
                                     <DatePicker fx:id="startTime" prefHeight="26.0" prefWidth="465.0" />
                                     <DatePicker fx:id="expiryTime" prefHeight="26.0" prefWidth="414.0" />
@@ -144,7 +125,7 @@
                   </AnchorPane>
             </content>
           </Tab>
-            <Tab text="Edit Tickets">
+            <Tab fx:id="tab" text="Edit Tickets">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -201,10 +182,10 @@
                                  <children>
                                     <TextField fx:id="ticketTitleTxt1" prefHeight="0.0" prefWidth="294.0" />
                                     <TextField fx:id="ticketTypeTxt1" prefHeight="26.0" prefWidth="294.0" />
-                                    <Spinner fx:id="quantitySpinner1" editable="true" initialValue="50" max="1000000" min="1" prefHeight="26.0" prefWidth="349.0" />
-                                    <Spinner fx:id="priceSpinner1" editable="true" initialValue="200.0" max="1000000" min="1.0" prefHeight="26.0" prefWidth="339.0" />
+                                    <Spinner fx:id="quantitySpinner1" editable="true" initialValue="50" max="1000000" min="1" prefHeight="26.0" prefWidth="351.0" />
+                                    <Spinner fx:id="priceSpinner1" editable="true" initialValue="200.0" max="1000000" min="1.0" prefHeight="26.0" prefWidth="340.0" />
                                     <TextField fx:id="ticketDescriptionTxt1" layoutX="10.0" layoutY="196.0" />
-                                    <DatePicker fx:id="startTime1" prefHeight="26.0" prefWidth="465.0" />
+                                    <DatePicker fx:id="startTime1" prefHeight="26.0" prefWidth="300.0" />
                                     <DatePicker fx:id="expiryTime1" prefHeight="26.0" prefWidth="414.0" />
                                     <Button fx:id="imageUploadBtn1" mnemonicParsing="false" onAction="#uploadTicketImage" prefHeight="26.0" prefWidth="190.0" text="Edit Image" />
                                  </children>

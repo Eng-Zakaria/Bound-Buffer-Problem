@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
@@ -18,7 +19,7 @@
    <children>
       <TabPane fx:id="tabPane" prefHeight="539.0" prefWidth="887.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
-          <Tab text="Browse Tickets">
+          <Tab fx:id="ticketTab" text="Browse Tickets">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -36,7 +37,7 @@
                      </children></AnchorPane>
             </content>
           </Tab>
-            <Tab text="My Cart Tickets">
+            <Tab fx:id="cartTab" text="My Cart Tickets">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -78,7 +79,7 @@
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Button fx:id="addCartBtn" layoutX="388.0" layoutY="468.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="114.0" text="Add To Cart" />
+                        <Button fx:id="addCartBtn" layoutX="388.0" layoutY="468.0" mnemonicParsing="false" onAction="#addToCart" prefHeight="27.0" prefWidth="114.0" text="Add To Cart" />
                         <HBox prefHeight="379.0" prefWidth="862.0">
                            <children>
                               <VBox alignment="TOP_RIGHT" prefHeight="411.0" prefWidth="275.0" spacing="10.0">
@@ -127,7 +128,7 @@
                                  <children>
                                     <TextField fx:id="ticketTitleTxt" editable="false" prefHeight="0.0" prefWidth="294.0" />
                                     <TextField fx:id="ticketTypeTxt" editable="false" prefHeight="26.0" prefWidth="294.0" />
-                                    <TextField fx:id="ticketQuantityTxt" editable="false" layoutX="10.0" layoutY="196.0" />
+                                    <Spinner fx:id="spinnerQuantity" editable="true" max="100" min="1" prefHeight="26.0" prefWidth="332.0" />
                                     <TextField fx:id="ticketPriceTxt" editable="false" layoutX="10.0" layoutY="71.0" prefHeight="26.0" prefWidth="294.0" />
                                     <TextField fx:id="ticketDescriptionTxt" editable="false" layoutX="10.0" layoutY="278.0" prefHeight="26.0" prefWidth="294.0" />
                                     <TextField fx:id="ticketStartTimeTxt" editable="false" layoutX="10.0" layoutY="112.0" />
@@ -157,7 +158,8 @@
          <children>
             <AnchorPane prefHeight="47.0" prefWidth="540.0">
                <children>
-                  <Button fx:id="refreshTableBtn" layoutX="50.0" layoutY="11.0" mnemonicParsing="false" onAction="#showCustomerTicketTableView" prefHeight="26.0" prefWidth="92.0" text="Refresh" />
+                  <Button fx:id="refreshTableBtn" layoutX="50.0" layoutY="11.0" mnemonicParsing="false" onAction="#showCustomerTicketTableView" prefHeight="26.0" prefWidth="103.0" text="Refresh System" />
+                  <Button fx:id="refreshTableBtn1" layoutX="185.0" layoutY="10.0" mnemonicParsing="false" onAction="#showCustomerCartTableView" prefHeight="26.0" prefWidth="92.0" text="Refresh Cart" />
                </children>
             </AnchorPane>
             <Button fx:id="backToLogin" alignment="CENTER" layoutX="412.0" layoutY="20.0" mnemonicParsing="false" onAction="#back" prefHeight="27.0" prefWidth="92.0" text="Back to Login" />

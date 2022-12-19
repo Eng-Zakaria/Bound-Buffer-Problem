@@ -129,6 +129,10 @@ public class VendorsController {
     ImageView imageView1;
     @FXML
     Label errorLabel1;
+    @FXML
+    TabPane tabPane;
+    @FXML
+    Tab tab;
 
 
 
@@ -158,7 +162,7 @@ public class VendorsController {
 
                         LocalDate expiryTimeValue = expiryTime.getValue();//For reference
                         DateTimeFormatter formatterExpiry = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-                        String formattedStringExpiry = startTimeValue.format(formatterExpiry);
+                        String formattedStringExpiry = expiryTimeValue.format(formatterExpiry);
 
                         General general = new General();
                         Vendor vendor;
@@ -183,9 +187,10 @@ public class VendorsController {
     }
 
     public void editTicket (MouseEvent event) throws IOException{
-
         try{
             if(event.getClickCount() == 2) {
+                Ticket ticket = vendorTicketTV.getSelectionModel().getSelectedItem();
+                tabPane.getSelectionModel().select(tab);
                 if (image1 != null && imagePathTxt1.endsWith(".jpg")) {
                     if (startTime1.getValue() != null && expiryTime1.getValue() != null) {
                         if (!ticketTitleTxt1.getText().isEmpty() && !ticketDescriptionTxt1.getText().isEmpty() && !ticketTypeTxt1.getText().isEmpty()) {
@@ -199,7 +204,15 @@ public class VendorsController {
 
                             General general = new General();
 
-                            Ticket ticket = vendorTicketTV.getSelectionModel().getSelectedItem();
+
+                            ticketTitleTxt1.setText(ticket.getName());
+                            ticketTypeTxt1.setText(ticket.getType());
+                            priceSpinner1.setPromptText(String.valueOf(ticket.getPrice()));
+                            quantitySpinner1.setPromptText(String.valueOf(ticket.getQuantity()));
+                            ticketDescriptionTxt1.setText(ticket.getDescription());
+                            startTime1.setAccessibleText(ticket.getStartTime());
+                            expiryTime1.setAccessibleText(ticket.getEndTime());
+
                             ticket.setName(ticketTitleTxt1.getText());
                             ticket.setType(ticketTypeTxt1.getText());
                             ticket.setQuantity(quantitySpinner1.getValue());
@@ -295,24 +308,8 @@ public class VendorsController {
         ticketStartDate.setCellValueFactory(new PropertyValueFactory<>("StartTime"));
         ticketExpiryDate.setCellValueFactory(new PropertyValueFactory<>("EndTime"));
 
-
-        for(int i=0; i < vendor.getTicketsForSellByEveryVendor().size();i++){
-            if(vendor.getTicketsForSellByEveryVendor().get(i).sold()){
-                ObservableList<Ticket> vendorSoldTicketsCollection = FXCollections.observableArrayList(vendor.getTicketsForSellByEveryVendor());
-                vendorTicketTV1.setItems(vendorSoldTicketsCollection);
-                ticketName1.setCellValueFactory(new PropertyValueFactory<>("Name"));
-                ticketDescription1.setCellValueFactory(new PropertyValueFactory<>("Description"));
-                ticketType1.setCellValueFactory(new PropertyValueFactory<>("Type"));
-                ticketPrice1.setCellValueFactory(new PropertyValueFactory<>("Price"));
-                ticketQuantity1.setCellValueFactory(new PropertyValueFactory<>("Quantity"));
-                ticketStartDate1.setCellValueFactory(new PropertyValueFactory<>("StartTime"));
-                ticketExpiryDate1.setCellValueFactory(new PropertyValueFactory<>("EndTime"));
-
-            }
-        }
-
-
     }
 
 
 }
+
