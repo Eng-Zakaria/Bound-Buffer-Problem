@@ -5,6 +5,7 @@ import com.google.zxing.WriterException;
 
 import java.io.IOException;
 import java.util.Locale;
+import java.util.concurrent.Semaphore;
 
 public class Ticket extends BoundBuffer{
     private int id;
@@ -347,10 +348,27 @@ public class Ticket extends BoundBuffer{
 
 
 
+    private Semaphore semBuyTicket=BoundBuffer.s1;
 
-    public int buy(Customer c,int quantity){
+
+
+    public int buy(Customer c, int quantity){
+       try {
+
+           semBuyTicket.acquire();
+
+       } catch (InterruptedException e) {
+        throw new RuntimeException(e);
+        }
 
         System.out.println("---------------------receipt for ticket: \\\\\" "+this.name+" \\\\\"---------------------------");
+
+        System.out.println("----------thread is currently execute["+Thread.currentThread().getName()+"]--------in this piece of code ");
+
+        System.out.println(Thread.currentThread().getState());
+        System.out.println("number of threads are active in checkout method for customers: "+customersCheckoutTheards.activeCount());
+        System.out.println("------------------End of thread-"+Thread.currentThread().getName()+"----------------------------------");
+
 
 
         if(c.getBalance() < (this.price * quantity)){
@@ -360,11 +378,7 @@ public class Ticket extends BoundBuffer{
 
          int sell = sellTickets(quantity);
         if( sell <= 0){
-            //without applied the solution I had checked tickets before adding it in cart so i don't need to check that again
-            //so when i'm trying to buy tickets for customer logically without insure there is one only customer can have those tickets, moreover ,without re
-            //thanking in concurrency way (regardless The time there are many customers trying to buy total quantity of THE SAME ticket) actaly we will pass all of these requstes
-            // to buy total of quantity of the same ticket (DOES NOT MAKE ANY SENSE TO DO THAT BUT AS YOU WENT prf. (0_-))
-           // return sell;
+           return sell;
         }
 
 
@@ -372,7 +386,18 @@ public class Ticket extends BoundBuffer{
 
         System.out.println("your total balance is: "+c.getBalance());
 
-        c.setBalance(c.getBalance()-(this.price*quantity));
+
+        c.setBalance(c.getBalance()-(price * quantity));
+        String nameOfStore = "";
+        if(owner != null) {
+            nameOfStore = owner.getNameOfStore();
+            owner.soldTicketNotify(Ticket.this, quantity);
+        } else {
+            nameOfStore = ReadValueLine(pathOwner, "nameOfStore", 2);
+            double vbalance = Double.parseDouble(ReadValueLine(pathOwner, "balanceVendor", 9));
+            editValueLine(pathInFolderOwner, "balanceVendor", String.valueOf(vbalance + (price * quantity)), 9);
+        }
+
 
         System.out.println("the price for single ticket ["+this.name +"] is: "+this.price);
         System.out.println("so total price for all tickets\n"+"you need: "+quantity +"for event "+this.name);
@@ -380,18 +405,13 @@ public class Ticket extends BoundBuffer{
 
         c.increasetNoTicketPaidbyCustomers(quantity);
         System.out.println("the number of tickets you have: "+c.getNoTicketPaidbyCustomers());
-        String nameOfStore = "";
-        if(this.owner != null) {
-            nameOfStore = this.owner.getNameOfStore();
-            this.owner.soldTicketNotify(Ticket.this, quantity);
-        } else{
-            nameOfStore = ReadValueLine(this.pathOwner, "nameOfStore", 2);
-        }
-        this.generateQrcode(c.getPathForAllQrsFloder()+"\\"+(c.getIndexQr()+1)+this.name+"[" +nameOfStore +"]"+".png",  "owner: "+nameOfStore+"\nname of event: "+this.name+"idEvent: "+this.id+"\nEmail: "+c.getEmail()+"\n customer's id: "+String.valueOf(c.getId())+"\nStart Time:"+this.startTime+" End Time:"+this.endTime+"\n number of person: "+ quantity+"The date of purchase : "+now());
+
+        this.generateQrcode(c.getPathForAllQrsFloder()+"\\"+(c.getIndexQr()+1)+this.name+"[" + nameOfStore +"]"+".png",  "owner: "+ nameOfStore +"\nname of event: "+this.name+"idEvent: "+this.id+"\nEmail: "+c.getEmail()+"\n customer's id: "+String.valueOf(c.getId())+"\nStart Time:"+this.startTime+" End Time:"+this.endTime+"\n number of person: "+ quantity+"The date of purchase : "+now());
         c.recieveQr(this.Qrcode);
         System.out.println("quantity ");
         System.out.println(quantity);
         System.out.println("-------------------recipt-------------------------");
+        semBuyTicket.release();
         return 1;
 
     }

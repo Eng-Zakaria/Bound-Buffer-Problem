@@ -2,6 +2,8 @@ package com.example.boundbuffer.Models;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Customer extends BoundBuffer implements Runnable{
     private int id;
@@ -12,10 +14,11 @@ public class Customer extends BoundBuffer implements Runnable{
     private double balance;
     private Cart cart;
     private String []Qrs;
+
     private String pathForAllQrsFloderCT;
     private String pathFileForInfo;
 
-    public Customer(String name,String email,String password,double balance,int newData){
+    public Customer(String name, String email, String password, double balance, int newData){
         super();
         this.name =name;
         this.Email = email;
@@ -66,7 +69,7 @@ public class Customer extends BoundBuffer implements Runnable{
        -2 -> Dead ticket
        -3 -> balance for specific ticket is less that customer have NOT for all tickets in cart just for this ticket because all we will check total attirube in cart, hance we save on this attribute total
 
-    * ziko pay your fucking attention here
+
     *       this function (checkTicketsINCart)
     *       return 2d array of int such as ->
     *       index  of ticket that's have issue | type of invalid data
@@ -152,22 +155,19 @@ public class Customer extends BoundBuffer implements Runnable{
             return -3;
         }
 
-        System.out.println("----------thread is currently execute["+Thread.currentThread().getName()+"]--------in this piece of code ");
-
-        System.out.println(Thread.currentThread().getState());
-        System.out.println("number of threads are active in checkout method for customers: "+customersCheckoutTheards.activeCount());
-        System.out.println("------------------End of thread-"+Thread.currentThread().getName()+"----------------------------------");
 
 
 
         int [][] checkedT = checkTicketsInCart();
-       /*
-        int loop = 5;
+
+        int loop = 5;// just for exmp
          while (checkedT != null && loop != 0) {
              loop --;
              checkedT = checkTicketsInCart();
          }
-       */
+         if(checkedT == null)
+             return 0;
+
 
         for (int i=0;i<cart.getNoTicketsInCart();i++) {
             int y =T[i].buy(Customer.this, Q[i]);
@@ -187,9 +187,11 @@ public class Customer extends BoundBuffer implements Runnable{
         checkOut();
 
     }
+    ExecutorService  executorService= Executors.newFixedThreadPool(1);
     public Thread checkoutThread(){
         Thread t  = new Thread(BoundBuffer.customersCheckoutTheards,this);
         t.start();
+       // executorService.submit(t);
         return t;
     }
 

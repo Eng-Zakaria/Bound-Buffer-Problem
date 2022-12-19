@@ -15,10 +15,11 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.*;
+import java.util.concurrent.Semaphore;
 
 public class BoundBuffer {
     public static String rootDataBase= "D:\\Java programming\\OS2-project\\Bound-Buffer-Problem\\DataBase";
-    public static int TotalNoTickets = LastPosion(rootDataBase +"\\preload\\idTicket.txt");
+    public static volatile int TotalNoTickets=-1;
     public static ArrayList<Ticket> tickets;
     public static int NoCustomers = LastPosion( rootDataBase+"\\preload\\idCT.txt");
     public static int NoVendors = LastPosion(rootDataBase+"\\preload\\idVEN.txt");
@@ -37,8 +38,11 @@ public class BoundBuffer {
         if (tickets == null) tickets = new ArrayList<>(10000);
         if(customersCheckoutTheards == null) customersCheckoutTheards = new ThreadGroup("checkouts");
         if(vendorsAddingTicketsTheards == null) vendorsAddingTicketsTheards = new ThreadGroup("vendorsAddinTickets");
-
+        if(TotalNoTickets == -1)TotalNoTickets = LastPosion(rootDataBase +"\\preload\\idTicket.txt");
     }
+    public static Semaphore s1 = new Semaphore(1);
+    public static Semaphore s2 = new Semaphore(1);
+
 
 
     public static void main(String[] args) {
@@ -49,9 +53,8 @@ public class BoundBuffer {
         System.out.println(vendors.toString());
         System.out.println(customers.toString());
 
-
-        /*
-        for (int i=0;i< 500;i++) {
+/*
+        for (int i=0;i< 100;i++) {
             customers.add(new Customer("mm" + i, "m" + i + "@gmail.com", "c1234" + i, 10000.0, 1));
             vendors.add(new Vendor("vv" + i, "user" + i, "v1234" + i, ".jpg", "dfdadfsad", 1));
         }
@@ -61,7 +64,7 @@ public class BoundBuffer {
 
 
 
-      for (int i=0;i<500;i++) {
+      for (int i=0;i<100;i++) {
 
               b.login("m"+i+"@gmail.com", "c1234"+i);
              b.login("user"+i,"v1234"+i);
@@ -79,8 +82,8 @@ public class BoundBuffer {
         System.out.println("     ----------------applied for vendors-----------------------------------");
 
 
-
 /*
+
         for (int i=0;i<vendors.size();i++){
             Thread t = vendors.get(i).addingTheard();
             t.setName("vendor thread of "+i);
@@ -92,14 +95,6 @@ public class BoundBuffer {
         System.out.println("----------------------------------------------");
         System.out.println("     -------------End of applied for Vendors--------------------------------------");
 
-
-        for (int i=0;i<tickets.size();i++){
-            System.out.println(tickets.get(i).getIssold());
-            System.out.println(tickets.get(i).getAvailable());
-            if(tickets.get(i).getAvailable() == false)
-                System.out.println(tickets.get(i).getName());
-            System.out.println(tickets.get(i).getIsDeadticket());
-        }
 
 
         System.out.println("         ----------------------------------------");
@@ -635,6 +630,7 @@ public class BoundBuffer {
                 public void run() {
 
                     ArrayList<Ticket> t = loadingDataTickets(foldersVendors[I]);
+                    Thread.currentThread().setPriority(1);
                     if(t.size() > 0)
                         tickets.addAll(t);
 
@@ -703,7 +699,7 @@ public class BoundBuffer {
           Attribues = nameofattribuesinct;
 
         }else if(cv == 2) {
-          String[] nameofattribuesinven = {"imagePath", "id", "nameOfStore", "userName", "password", "Description", "TicketsForSell", "TicketsIncludeQuantity", "pathFolderTicketsCreatedByMeToSave"};
+          String[] nameofattribuesinven = {"imagePath", "id", "nameOfStore", "userName", "password", "Description", "TicketsForSell", "TicketsIncludeQuantity", "pathFolderTicketsCreatedByMeToSave","balanceVendor"};
           Attribues = nameofattribuesinven;
           cv = 2;
         }else {
@@ -758,15 +754,15 @@ public class BoundBuffer {
                //
               //    public Vendor(String nameOfStore,String username,String password,String imagepath,String des,int newData)
 
-             //        0         1         2            3           4             5               6                 7                                         8
-            //     "imagePath", "id", "nameOfStore", "userName", "password", "Description", "TicketsForSell", "TicketsIncludeQuantity", "pathFolderTicketsCreatedByMeToSave"};
+             //        0         1         2            3           4             5               6                 7                                         8                   9
+            //     "imagePath", "id", "nameOfStore", "userName", "password", "Description", "TicketsForSell", "TicketsIncludeQuantity", "pathFolderTicketsCreatedByMeToSave","balanceVendor"};
             Vendor v = new Vendor(dataInFile[2], dataInFile[3], dataInFile[4], dataInFile[0],dataInFile[5],0);
 
             v.setId(Integer.valueOf(dataInFile[1]));
             v.setNoTickets(Integer.valueOf(dataInFile[6]),1);
             v.setTotalnoTicketsIcludeQuntity(Integer.valueOf(dataInFile[7]), 1);
             v.setPathFolderTicketCreatedByVendor(dataInFile[8]);
-
+            v.setBalanceVendor(Double.parseDouble(dataInFile[9]),1);
 
             v.setPathInfofile(pathfiletobeRead);
             ArrayList<Ticket> t =loadingDataTickets(v.getPathFolderTicketCreatedByVendor());
@@ -785,7 +781,7 @@ public class BoundBuffer {
         }
 
         return null;
-        //before 
+        //before
 
         }
 

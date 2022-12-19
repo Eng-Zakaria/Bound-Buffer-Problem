@@ -63,13 +63,7 @@ public class Cart {
             nq = getQuentatiyForItemInCart(SearchIndex);
         }
 
-        System.out.println(I.getQuantity() == 0);
-        System.out.println(I.getAvailable() == false);
-        System.out.println(quentatiy+nq > I.getQuantity());
-        System.out.println(I.getQuantity());
-        System.out.println(I.getAvailable());
-        System.out.println(I.getIssold());
-        System.out.println(I.getIsDeadticket());
+
 
         System.out.println(nq+quentatiy);
         if(I.getQuantity() == 0 || I.getAvailable() == false || quentatiy+nq > I.getQuantity()){

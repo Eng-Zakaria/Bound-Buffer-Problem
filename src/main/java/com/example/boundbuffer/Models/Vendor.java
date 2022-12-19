@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+import java.util.concurrent.Semaphore;
 
 public class Vendor extends BoundBuffer implements Runnable{
     private int id;
@@ -16,6 +17,8 @@ public class Vendor extends BoundBuffer implements Runnable{
     private int noTickets;
     private int TotalnoTicketsIcludeQuntity;
     private String pathInfofile;
+
+    private double balanceVendor=0.0;
     private ArrayList<Ticket> ticketsForSellByEveryVendor =null;
     private String pathFolderTicketCreatedByVendor;
     private ArrayList<String> allPathForticketsCreatedByMeInCustomerView = null;
@@ -42,11 +45,11 @@ public class Vendor extends BoundBuffer implements Runnable{
             BoundBuffer.NoVendors++;
             setId(this.id,"D:\\Java programming\\OS2-project\\Bound-Buffer-Problem\\DataBase\\preload\\idVEN.txt");
 
-            String[] nameofattribues = {"imagePath","id", "nameOfStore", "userName","password","Description","TicketsForSell","TicketsIncludeQuantity","pathFolderTicketsCreatedByMeToSave"}; //
+            String[] nameofattribues = {"imagePath","id", "nameOfStore", "userName","password","Description","TicketsForSell","TicketsIncludeQuantity","pathFolderTicketsCreatedByMeToSave","balanceVendor"}; //
             this.pathFolderTicketCreatedByVendor =super.NewFloder( "D:\\Java programming\\OS2-project\\Bound-Buffer-Problem\\DataBase\\ticketsVendors\\", String.valueOf(this.id)+" ["+username+"] "+"Tickets");
-            String[] values = {imagepath,String.valueOf(this.id), nameOfStore, username, password,des,String.valueOf(noTickets),String.valueOf(TotalnoTicketsIcludeQuntity),this.pathFolderTicketCreatedByVendor};
+            String[] values = {imagepath,String.valueOf(this.id), nameOfStore, username, password,des,String.valueOf(noTickets),String.valueOf(TotalnoTicketsIcludeQuntity),this.pathFolderTicketCreatedByVendor,String.valueOf(balanceVendor)};
             this.pathInfofile = Creetefiletxt(this.id+" ["+username+"] ","D:\\Java programming\\OS2-project\\Bound-Buffer-Problem\\DataBase\\vendors\\");
-            WriteData(this.pathInfofile,nameofattribues,values,9);
+            WriteData(this.pathInfofile,nameofattribues,values,10);
             setNoTickets(0,0);
             setTotalnoTicketsIcludeQuntity(0,0);
 
@@ -61,9 +64,23 @@ public class Vendor extends BoundBuffer implements Runnable{
         }
 
     }
+    private Semaphore semAddticket = BoundBuffer.s2;
+
+
+    // ReentrantLock rel; -> anther solution for boundbuffer issue
+
     // String PathFolderOwner,String pathOwner,String name, String type, int quantity,double price, String imagePath, String description,String startTime ,String EndTime
     public int addTicket(String name, String type,int quantity ,double price, String imagepath,String description,String startTime,String EndTime){
-         if(price < 0 || quantity <= 0) {
+
+        try {
+            semAddticket.acquire();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+
+
+        if(price < 0 || quantity <= 0) {
              System.out.println("invalid data");
              return 0;
          }
@@ -113,8 +130,8 @@ public class Vendor extends BoundBuffer implements Runnable{
         BoundBuffer.TotalNoTickets++;
 
 
-        setId(I.getId(),"D:\\Java programming\\OS2-project\\Bound-Buffer-Problem\\DataBase\\preload\\idTicket.txt");
-
+        setId(TotalNoTickets,"D:\\Java programming\\OS2-project\\Bound-Buffer-Problem\\DataBase\\preload\\idTicket.txt");
+         semAddticket.release();
         return 1;
     }
 
@@ -130,6 +147,20 @@ public class Vendor extends BoundBuffer implements Runnable{
         t.start();
         return t;
     }
+    public Thread addingTheard(String name1, String type1,int quantity1 ,double price1, String imagepath1,String description1,String startTime1,String EndTime1){
+        Thread t =new Thread(new Runnable() {
+            @Override
+            public void run() {
+                addTicket(name1, type1,quantity1 ,price1,imagepath1,description1,startTime1,EndTime1);
+            }
+        });
+        t.setName("thread adding request for vendor id:"+getId());
+        t.start();
+        return t;
+    }
+
+
+
 
 
     public int deleteTicket(Ticket I){
@@ -174,6 +205,17 @@ public class Vendor extends BoundBuffer implements Runnable{
 
     public void setAllPathForticketsCreatedByMeInCustomerView(ArrayList<String> allPathForticketsCreatedByMeInCustomerView ) {
             this.allPathForticketsCreatedByMeInCustomerView = allPathForticketsCreatedByMeInCustomerView;
+
+    }
+
+    public double getBalanceVendor() {
+        return balanceVendor;
+    }
+
+    public void setBalanceVendor(double balanceVendor, int load) {
+        this.balanceVendor = balanceVendor;
+        if(load == 0)
+            editValueLine(this.pathInfofile,"balanceVendor",String.valueOf(balanceVendor),9);
 
     }
 
@@ -368,9 +410,11 @@ public class Vendor extends BoundBuffer implements Runnable{
 
         System.out.println("--------------------\n-------------");
         System.out.println("tickets quantity before selling: "+t.getQuantity() + "Quantity required: "+quantity);
+        setBalanceVendor(this.balanceVendor + (t.getPrice() * quantity),0);
+        System.out.println("your balance had became"+this.balanceVendor);
         System.out.println( "vendors : " + this.getTicketsForSellByEveryVendor().get(  this.getTicketsForSellByEveryVendor().indexOf(t) ).getQuantity());
         System.out.println( "tickets : " +tickets.get( tickets.indexOf(t)  ).getQuantity());
-        System.out.println("there are ticket(s) have been sold cheerz!!!");
+        System.out.println("there are ticket(s) have been sold cheerz!!!"+"you have earned amount:"+t.getPrice() * quantity +"$");
 
         return 1;
     }
